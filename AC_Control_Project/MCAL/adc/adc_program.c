@@ -25,7 +25,7 @@ static void ( *pf_gs_interruptAction ) ( void ) = NULL;
  Output: void
  Description: Function to Initialize ADC peripheral.
 */
-vd ADC_vdInitialization ( void )
+vd ADC_initialization ( void )
 {
 	/* Step 1: Select ADC Voltage Reference ( Vref ) */	
 	switch ( ADC_U8_VREF_SELECT )
@@ -113,24 +113,24 @@ vd ADC_vdInitialization ( void )
 
 /*******************************************************************************************************************************************************************/
 /*
- Name: ADC_u8StartConversion
+ Name: ADC_startConversion
  Input: u8 ChannelId
  Output: u8 Error or No Error
  Description: Function to Start Analog to Digital Conversion.
 */
-u8 ADC_u8StartConversion( u8 Cpy_u8ChannelId )
+u8 ADC_startConversion( u8 u8_a_channelId )
 {	
 	/* Define local variable to set the error state = OK */
 	u8 u8_l_errorState = STD_OK;
 
 	/* Check 1: ChannelId is in the valid range */
-	if ( Cpy_u8ChannelId <= ADC_U8_CHANNEL_31 )
+	if ( u8_a_channelId <= ADC_U8_CHANNEL_31 )
 	{
 		/* Step 1: Place the passed Channel into the ADMUX register in the 5 LSBs ( MUX4:0 ) */
 		/* Important Note 1: In order to place the right channel in the ADMUX register, we have to clear the 5 LSBs ( MUX4:0 ) and reserve the 3 MSBs by using logical AND */
 		ADC_U8_ADMUX_REG &= 0b11100000;
 		/* Important Note 2: In order to avoid altering the 3 MSBs, and since the ChannelId is passed in 8 bits not 5 bits, we have to use logical OR. */
-		ADC_U8_ADMUX_REG |= Cpy_u8ChannelId;
+		ADC_U8_ADMUX_REG |= u8_a_channelId;
 
 		/* Step 2: Start Conversion */
 		SET_BIT( ADC_U8_ADCSRA_REG, ADC_U8_ADSC_BIT );
@@ -152,16 +152,16 @@ u8 ADC_u8StartConversion( u8 Cpy_u8ChannelId )
  Output: u8 Error or No Error
  Description: Function to Get the Digital value using both Polling and Interrupt Modes.
 */
-u8 ADC_u8GetDigitalValue( u8 Cpy_u8InterruptionMode, u16 *Cpy_pu16ReturnedDigitalValue )
+u8 ADC_getDigitalValue( u8 u8_a_interruptionMode, u16 *pu16_a_returnedDigitalValue )
 {
 	/* Define local variable to set the error state = OK */
 	u8 u8_l_errorState = STD_OK;
 
 	/* Check 1: InterruptionMode is in the valid range, and Pointer is not equal to NULL */
-	if ( ( Cpy_u8InterruptionMode <= ADC_U8_CC_INT_MODE ) && ( Cpy_pu16ReturnedDigitalValue != NULL ) )
+	if ( ( u8_a_interruptionMode <= ADC_U8_CC_INT_MODE ) && ( pu16_a_returnedDigitalValue != NULL ) )
 	{
 		/* Check 1.1: Required InterruptionMode */
-        switch ( Cpy_u8InterruptionMode )
+        switch ( u8_a_interruptionMode )
         {
 			case ADC_U8_POLLING_MODE:
 			{
@@ -180,7 +180,7 @@ u8 ADC_u8GetDigitalValue( u8 Cpy_u8InterruptionMode, u16 *Cpy_pu16ReturnedDigita
 					SET_BIT( ADC_U8_ADCSRA_REG, ADC_U8_ADIF_BIT );
 
 					/* Step 3: Get the digital value from the ADC register -> ( ADCH register + ADCL register ). */
-					*Cpy_pu16ReturnedDigitalValue = ADC_U16_ADC_REG;
+					*pu16_a_returnedDigitalValue = ADC_U16_ADC_REG;
 				}
 				/* Check 1.1.2: Conversion doesn't end ( i.e. TimeOutCounter reached Max value ). */
 				else
@@ -194,7 +194,7 @@ u8 ADC_u8GetDigitalValue( u8 Cpy_u8InterruptionMode, u16 *Cpy_pu16ReturnedDigita
 			case ADC_U8_CC_INT_MODE:
 
 				/* Get the digital value from the ADC register -> ( ADCH register + ADCL register ). */
-				*Cpy_pu16ReturnedDigitalValue = ADC_U16_ADC_REG;
+				*pu16_a_returnedDigitalValue = ADC_U16_ADC_REG;
 
 			break;
 		}
