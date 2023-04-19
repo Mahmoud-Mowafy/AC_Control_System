@@ -56,6 +56,7 @@
 #define MAX_COUNTS                           256
 #define TICK_TIME                         (0.000128f) // in sec
 #define SECOND_OPERATOR                     (1000.0f)
+#define MICRO_SECOND_OPERATOR				(1000000.0f)
 
 #define NO_PRESCALER                        1
 /* ****************************************************************/
@@ -92,7 +93,7 @@ EN_TIMER_ERROR_T TIMER_timer0NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputE
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_timer0Delay(u16 u16_a_interval);
+EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval);
 
 /**
  * @brief Start the timer by setting the desired prescaler.
@@ -172,7 +173,7 @@ EN_TIMER_ERROR_T TIMER_timer2Start(u16 u16_a_prescaler);
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_timer2Delay(u16 u16_a_interval);
+EN_TIMER_ERROR_T TIMER_delay_us(u16 u16_a_interval);
 
 /**
  * @brief Set callback function for timer overflow interrupt
