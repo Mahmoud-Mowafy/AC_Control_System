@@ -50,14 +50,14 @@
 			DIO_U8_PIN_7
  */
 /* KPD Rows */
-#define KPD_U8_R1_PIN			DIO_U8_PIN_0
-#define KPD_U8_R2_PIN			DIO_U8_PIN_1
-#define KPD_U8_R3_PIN			DIO_U8_PIN_2
+#define KPD_U8_R1_PIN			DIO_U8_PIN_2
+#define KPD_U8_R2_PIN			DIO_U8_PIN_3
+#define KPD_U8_R3_PIN			DIO_U8_PIN_4
 
 /* KPD Columns */
-#define KPD_U8_C1_PIN			DIO_U8_PIN_4
-#define KPD_U8_C2_PIN			DIO_U8_PIN_5
-#define KPD_U8_C3_PIN			DIO_U8_PIN_6
+#define KPD_U8_C1_PIN			DIO_U8_PIN_5
+#define KPD_U8_C2_PIN			DIO_U8_PIN_6
+#define KPD_U8_C3_PIN			DIO_U8_PIN_7
 
 /* KPD Output Pins */
 /* Options: 1.Rows:    KPD_U8_R1_PIN
