@@ -141,6 +141,9 @@
     <Compile Include="HAL\lcd\lcd_interface.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HAL\lcd\lcd_private.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HAL\lcd\lcd_program.c">
       <SubType>compile</SubType>
     </Compile>
