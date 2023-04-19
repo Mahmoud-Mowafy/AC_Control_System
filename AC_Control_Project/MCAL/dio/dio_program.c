@@ -190,13 +190,13 @@ EN_DIO_ERROR_T DIO_write(u8 u8_a_pinNumber, EN_DIO_PORT_T en_a_portNumber, u8 u8
 EN_DIO_ERROR_T DIO_toggle(u8 u8_a_pinNumber, EN_DIO_PORT_T en_a_portNumber){
     if(u8_a_pinNumber > DIO_MAX_PIN_NO || u8_a_pinNumber < DIO_MIN_PIN_NO) return DIO_ERROR;
 
-    u8 *val = DIO_U8_PIN_LOW;
-    EN_DIO_ERROR_T res = DIO_read(u8_a_pinNumber, en_a_portNumber, val);
+    u8 val = DIO_U8_PIN_LOW;
+    EN_DIO_ERROR_T res = DIO_read(u8_a_pinNumber, en_a_portNumber, &val);
     if (res == DIO_OK) {
         // toggle bit
-        *val = ((*val) == DIO_U8_PIN_LOW) ? DIO_U8_PIN_HIGH : DIO_U8_PIN_LOW;
+        val = (val == DIO_U8_PIN_LOW) ? DIO_U8_PIN_HIGH : DIO_U8_PIN_LOW;
 
-        DIO_write(u8_a_pinNumber, en_a_portNumber, *val);
+        DIO_write(u8_a_pinNumber, en_a_portNumber, val);
         return DIO_OK;
     } else {
         return DIO_ERROR;
@@ -224,16 +224,16 @@ EN_DIO_ERROR_T DIO_portInit(EN_DIO_PORT_T en_a_portNumber, EN_DIO_DIRECTION_T en
     // output only masked u8_a_byte u8_a_value (used karnaugh map to calculate expression)
     switch (en_a_portNumber) {
         case PORT_A:
-            DIO_U8_DDR_A_REG = ((~u8_a_mask) & DIO_U8_DDR_A_REG) | (u8_a_mask & en_a_dir);
+            DIO_U8_DDR_A_REG = ((~u8_a_mask) & DIO_U8_DDR_A_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
             break;
         case PORT_B:
-            DIO_U8_DDR_B_REG = ((~u8_a_mask) & DIO_U8_DDR_B_REG) | (u8_a_mask & en_a_dir);
+            DIO_U8_DDR_B_REG = ((~u8_a_mask) & DIO_U8_DDR_B_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
             break;
         case PORT_C:
-            DIO_U8_DDR_C_REG = ((~u8_a_mask) & DIO_U8_DDR_C_REG) | (u8_a_mask & en_a_dir);
+            DIO_U8_DDR_C_REG = ((~u8_a_mask) & DIO_U8_DDR_C_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
             break;
         case PORT_D:
-            DIO_U8_DDR_D_REG = ((~u8_a_mask) & DIO_U8_DDR_D_REG) | (u8_a_mask & en_a_dir);
+            DIO_U8_DDR_D_REG = ((~u8_a_mask) & DIO_U8_DDR_D_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
             break;
         default:
             return DIO_ERROR;
