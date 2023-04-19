@@ -13,8 +13,6 @@
 #include "dio_config.h"
 #include "dio_interface.h"
 
-/* ***************************************************************************************************************** */
-
 
 /**
  * @brief Initializes a pin of the DIO interface with a given direction
@@ -212,28 +210,28 @@ EN_DIO_ERROR_T DIO_toggle(u8 u8_a_pinNumber, EN_DIO_PORT_T en_a_portNumber){
  * pins of the port are inputs or outputs.
  *
  * @param[in] en_a_portNumber The port number of the DIO interface to initialize (PORT_A, PORT_B, PORT_C or PORT_D)
- * @param[in] en_a_dir The direction to set for the port (INPUT or OUTPUT)
+ * @param[in] en_a_portDir The direction to set for the port (INPUT or OUTPUT)
  * @param[in] u8_a_mask The mask to use when setting the DDR of the port (DIO_NO_MASK, DIO_MASK_BITS_n..)
  *
  * @return An EN_DIO_ERROR_T value indicating the success or failure of the operation
  *         (DIO_OK if the operation succeeded, DIO_ERROR otherwise)
  */
-EN_DIO_ERROR_T DIO_portInit(EN_DIO_PORT_T en_a_portNumber, EN_DIO_DIRECTION_T en_a_dir, u8 u8_a_mask) {
+EN_DIO_ERROR_T DIO_portInit(EN_DIO_PORT_T en_a_portNumber, EN_DIO_PORT_DIRECTION_T en_a_portDir, u8 u8_a_mask) {
     if(u8_a_mask == 0) u8_a_mask = 0xFF;
 
     // output only masked u8_a_byte u8_a_value (used karnaugh map to calculate expression)
     switch (en_a_portNumber) {
         case PORT_A:
-            DIO_U8_DDR_A_REG = ((~u8_a_mask) & DIO_U8_DDR_A_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
+            DIO_U8_DDR_A_REG = ((~u8_a_mask) & DIO_U8_DDR_A_REG) | (u8_a_mask & en_a_portDir);
             break;
         case PORT_B:
-            DIO_U8_DDR_B_REG = ((~u8_a_mask) & DIO_U8_DDR_B_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
+            DIO_U8_DDR_B_REG = ((~u8_a_mask) & DIO_U8_DDR_B_REG) | (u8_a_mask & en_a_portDir);
             break;
         case PORT_C:
-            DIO_U8_DDR_C_REG = ((~u8_a_mask) & DIO_U8_DDR_C_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
+            DIO_U8_DDR_C_REG = ((~u8_a_mask) & DIO_U8_DDR_C_REG) | (u8_a_mask & en_a_portDir);
             break;
         case PORT_D:
-            DIO_U8_DDR_D_REG = ((~u8_a_mask) & DIO_U8_DDR_D_REG) | (u8_a_mask & (en_a_dir == DIO_IN?0x00:0xFF));
+            DIO_U8_DDR_D_REG = ((~u8_a_mask) & DIO_U8_DDR_D_REG) | (u8_a_mask & en_a_portDir);
             break;
         default:
             return DIO_ERROR;

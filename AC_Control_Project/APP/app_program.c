@@ -25,7 +25,7 @@ void APP_initialization( void )
 
 	/* MCAL Initialization */
 		
-	TMR_tmr0NormalModeInit( DISABLED );
+	TIMER_timer0NormalModeInit( DISABLED, NULL );
 }
 
 

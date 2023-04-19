@@ -21,7 +21,7 @@ static u8 u8_gs_cursor = 0;
  * @return void
  */
 void LCD_init(void) {
-    DIO_portInit(LCD_DATA_PORT, DIO_OUT, DIO_NO_MASK);
+    DIO_portInit(LCD_DATA_PORT, DIO_PORT_OUT, DIO_NO_MASK);
     DIO_portWrite(LCD_DATA_PORT, DIO_U8_PORT_LOW, DIO_NO_MASK);
     TIMER_timer0NormalModeInit(DISABLED, NULL);
     TIMER_timer0Delay(10); // 10 ms

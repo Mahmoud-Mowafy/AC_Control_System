@@ -333,6 +333,19 @@ typedef enum EN_DIO_DIRECTION_T
 } EN_DIO_DIRECTION_T;
 
 /**
+ * @brief Enumeration for DIO direction.
+ *
+ * This enumeration defines the available directions for a Digital Input/Output (DIO) pin.
+ *
+ * @note This enumeration is used as input to the DIO driver functions for setting the pin direction.
+ */
+typedef enum EN_DIO_PORT_DIRECTION_T
+{
+    DIO_PORT_IN = 0,     /**< Input direction */
+    DIO_PORT_OUT = 0xFF    /**< Output direction */
+} EN_DIO_PORT_DIRECTION_T;
+
+/**
  * @brief Enumeration of DIO error codes
  *
  * This enumeration defines the possible error codes that can be returned by
@@ -420,13 +433,13 @@ EN_DIO_ERROR_T DIO_toggle(u8 u8_a_pinNumber, EN_DIO_PORT_T en_a_portNumber);
  * pins of the port are inputs or outputs.
  *
  * @param[in] en_a_portNumber The port number of the DIO interface to initialize (PORT_A, PORT_B, PORT_C or PORT_D)
- * @param[in] en_a_dir The direction to set for the port (INPUT or OUTPUT)
+ * @param[in] en_a_portDir The direction to set for the port (INPUT or OUTPUT)
  * @param[in] u8_a_mask The mask to use when setting the DDR of the port  (DIO_NO_MASK, DIO_MASK_BITS_n..)
  *
  * @return An EN_DIO_ERROR_T value indicating the success or failure of the operation
  *         (DIO_OK if the operation succeeded, DIO_ERROR otherwise)
  */
-EN_DIO_ERROR_T DIO_portInit(EN_DIO_PORT_T en_a_portNumber, EN_DIO_DIRECTION_T en_a_dir, u8 u8_a_mask);
+EN_DIO_ERROR_T DIO_portInit(EN_DIO_PORT_T en_a_portNumber, EN_DIO_PORT_DIRECTION_T en_a_portDir, u8 u8_a_mask);
 
 /**
  * @brief Writes a byte to a port of the DIO interface

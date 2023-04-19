@@ -16,12 +16,7 @@
 #include "../LIB/bit_math.h"
 
 /* MCAL */
-#include "../MCAL/gli/gli_interface.h"
-#include "../MCAL/exi/exi_interface.h"
 #include "../MCAL/timer/timer_interface.h"
-
-/* HAL */
-#include "../HAL/btn/btn_interface.h"
 
 
 /*******************************************************************************************************************************************************************/
