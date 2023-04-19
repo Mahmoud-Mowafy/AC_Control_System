@@ -17,6 +17,8 @@
 /*LIB*/
 #include "../../LIB/bit_math.h"
 #include "../../LIB/std.h"
+
+#define TEMPSENSOR_CHANNEL      0
 /******************************************************************************************/
 typedef enum {
 	TEMPSENSOR_OK,
