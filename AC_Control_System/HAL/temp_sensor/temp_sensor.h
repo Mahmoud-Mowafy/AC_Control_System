@@ -23,8 +23,8 @@
 typedef enum {
 	TEMPSENSOR_OK,
 	TEMPSENSOR_ERROR
-	}EN_tempsensorEror_T;
+	}EN_tempSensorEror_T;
 	
-EN_tempsensorEror_T TEMPSENSOR_init(void);
-EN_tempsensorEror_T TEMPSENSOR_updateValue(void);
+EN_tempSensorEror_T TEMPSENSOR_init(void);
+EN_tempSensorEror_T TEMPSENSOR_updateValue(void);
 #endif /* TEMP_SENSOR_H_ */
