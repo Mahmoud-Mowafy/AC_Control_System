@@ -445,3 +445,4 @@ MigrationBackup/
 cmake-build-debug/
 .$*.bkp
 *.dtmp
+AC_Control_Project/Debug/
