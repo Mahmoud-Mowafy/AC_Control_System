@@ -442,3 +442,6 @@ MigrationBackup/
 # User Defined
 .atsuo
 .idea/*
+cmake-build-debug/
+.$*.bkp
+*.dtmp
