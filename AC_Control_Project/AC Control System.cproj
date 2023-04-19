@@ -138,6 +138,12 @@
     <Compile Include="APP\app_program.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HAL\buzzer\buzzer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\buzzer\buzzer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HAL\lcd\lcd_config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -209,6 +215,7 @@
     <Folder Include="APP" />
     <Folder Include="HAL\lcd" />
     <Folder Include="HAL\keypad" />
+    <Folder Include="HAL\buzzer" />
     <Folder Include="HAL\temp_sensor" />
     <Folder Include="MCAL" />
     <Folder Include="HAL" />
