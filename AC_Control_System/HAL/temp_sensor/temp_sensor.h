@@ -19,6 +19,7 @@
 #include "../../LIB/std.h"
 
 #define TEMPSENSOR_CHANNEL      0
+#define TEMPSENSOR_PORT			PORT_A
 /******************************************************************************************/
 typedef enum {
 	TEMPSENSOR_OK,
@@ -27,4 +28,5 @@ typedef enum {
 	
 EN_tempSensorEror_T TEMPSENSOR_init(void);
 EN_tempSensorEror_T TEMPSENSOR_updateValue(void);
+EN_tempSensorEror_T TEMPSENSOR_getValue(u16 u16_a_adcValue);
 #endif /* TEMP_SENSOR_H_ */
