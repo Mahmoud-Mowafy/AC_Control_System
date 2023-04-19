@@ -17,8 +17,8 @@
 
 /* MCAL */
 #include "../MCAL/timer/timer_interface.h"
-
-
+#include "../MCAL/dio/dio_interface.h"
+#include "../MCAL/dio/dio_private.h"
 /*******************************************************************************************************************************************************************/
 /* APP Macros */
 
