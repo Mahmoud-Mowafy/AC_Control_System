@@ -69,7 +69,7 @@ vd ADC_initialization ( void );
 u8 ADC_startConversion( u8 u8_a_channelId );
 u8 ADC_getDigitalValue( u8 u8_a_interruptionMode, u16 *pu16_a_returnedDigitalValue );
 
-u8 ADC_setCallBack    ( void ( *pf_a_ADCInterruptAction ) ( void ) );
+u8 ADC_setCallBack    ( void ( *pf_a_interruptAction )( void ) );
 
 /*******************************************************************************************************************************************************************/
 

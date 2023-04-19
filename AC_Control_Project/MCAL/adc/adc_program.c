@@ -211,22 +211,22 @@ u8 ADC_getDigitalValue( u8 u8_a_interruptionMode, u16 *pu16_a_returnedDigitalVal
 
 /*******************************************************************************************************************************************************************/
 /*
- Name: ADC_u8ADCSetCallBack
+ Name: ADC_setCallBack
  Input: Pointer to Function that takes void and returns void
  Output: u8 Error or No Error
  Description: Function to receive an address of a function ( in APP Layer ) to be called back in ISR function,
   	  	  	  the address is passed through a pointer to function ( ADCInterruptAction ), and then pass this address to ISR function.
 */
-u8 ADC_u8ADCSetCallBack ( void ( *Cpy_pfADCInterruptAction ) ( void ) )
+u8 ADC_setCallBack    ( void ( *pf_a_interruptAction ) ( void ) )
 {
 	/* Define local variable to set the error state = OK */
 	u8 u8_l_errorState = STD_OK;
 
 	/* Check 1: Pointer to Function is not equal to NULL */
-	if( Cpy_pfADCInterruptAction != NULL )
+	if( pf_a_interruptAction != NULL )
 	{
 		/* Store the passed address of function ( in APP Layer ) through pointer to function ( ADCInterruptAction ) into Global Pointer to Function ( ADCInterruptAction ). */
-		pf_gs_interruptAction = Cpy_pfADCInterruptAction;
+		pf_gs_interruptAction = pf_a_interruptAction;
 	}
 	/* Check 2: Pointer to Function is equal to NULL */
 	else
