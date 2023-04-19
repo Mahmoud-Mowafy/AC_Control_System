@@ -1,5 +1,3 @@
-
-
 /*
  * TIMER_Program.c
  *
