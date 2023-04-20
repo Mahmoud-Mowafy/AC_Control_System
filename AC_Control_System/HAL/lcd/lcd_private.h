@@ -44,6 +44,7 @@
 
 /* Sizes */
 #define LCD_CGRAM_LOC_SIZE  8 // bytes
+#define LCD_CGRAM_LOC_COUNT  8 // 8 locations (8 bytes each)
 #define LCD_LINE_COLS  16
 #define LCD_LINES_COUNT  2
 

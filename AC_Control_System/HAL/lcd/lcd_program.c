@@ -58,12 +58,12 @@ void LCD_init(void) {
  * @param [in]u8_a_cmd The command to be sent
  */
 void LCD_sendCommand(u8 u8_a_cmd) {
-	
-	// send upper nibble // todo shift 4 instead of 3
-	DIO_portWrite(LCD_DATA_PORT, HIGHER_NIBBLE_SHIFT(u8_a_cmd), LCD_DATA_PINS_MASK);
-	
+
     // RS select command register
     DIO_write(LCD_CTRL_PIN_RS, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
+
+	// send upper nibble // todo shift 4 instead of 3
+	DIO_portWrite(LCD_DATA_PORT, HIGHER_NIBBLE_SHIFT(u8_a_cmd), LCD_DATA_PINS_MASK);
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
@@ -184,6 +184,8 @@ u8 LCD_setCursor(u8 u8_a_line, u8 u8_a_col) {
  * @return STD_OK if successful, otherwise STD_NOK
  */
 u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location) {
+
+    if(u8_a_location > LCD_CGRAM_LOC_COUNT) return STD_NOK;
 
     // set CGRAM Address
     LCD_sendCommand(LCD_CGRAM_ADDR + (u8_a_location * LCD_CGRAM_LOC_SIZE));
