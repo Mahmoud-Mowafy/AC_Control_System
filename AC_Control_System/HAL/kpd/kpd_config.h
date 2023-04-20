@@ -52,32 +52,30 @@
 /* KPD Rows */
 #define KPD_U8_R1_PIN			DIO_U8_PIN_2
 #define KPD_U8_R2_PIN			DIO_U8_PIN_3
-#define KPD_U8_R3_PIN			DIO_U8_PIN_4
 
 /* KPD Columns */
 #define KPD_U8_C1_PIN			DIO_U8_PIN_5
 #define KPD_U8_C2_PIN			DIO_U8_PIN_6
 #define KPD_U8_C3_PIN			DIO_U8_PIN_7
 
-/* KPD Output Pins */
+/* KPD Output and Input Pins */
 /* Options: 1.Rows:    KPD_U8_R1_PIN
  * 			           KPD_U8_R2_PIN
- *                     KPD_U8_R3_PIN
- *                     KPD_U8_R4_PIN
  *
  *          2.Columns: KPD_U8_C1_PIN
  *                     KPD_U8_C2_PIN
  *                     KPD_U8_C3_PIN
- *                     KPD_U8_C4_PIN
  */
 #define KPD_U8_OUTPUT_PIN1		KPD_U8_R1_PIN
 #define KPD_U8_OUTPUT_PIN2		KPD_U8_R2_PIN
-#define KPD_U8_OUTPUT_PIN3		KPD_U8_R3_PIN
+
+#define KPD_U8_INPUT_PIN1		KPD_U8_C1_PIN
+#define KPD_U8_INPUT_PIN2		KPD_U8_C2_PIN
+#define KPD_U8_INPUT_PIN3		KPD_U8_C3_PIN
 
 /* KPD Configured Keys */
-#define KPD_AU8_KEYS	  	  { { '7', '8', '9' },  \
-								{ '4', '5', '6' },  \
-								{ '1', '2', '3' } }
+#define KPD_AU8_KEYS	  	  { { 'A', 'R',  0  },  \
+								{ '+', '-', 'S' } }
 
 /* End of Configurations */
 
