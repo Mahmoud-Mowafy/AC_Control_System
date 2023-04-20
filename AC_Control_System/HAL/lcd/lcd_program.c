@@ -125,7 +125,7 @@ void LCD_sendChar(u8 u8_a_data) {
     TIMER_delay_us(LCD_US_DELAY_PULSE);
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    TIMER_delay_ms(LCD_US_DELAY_HOLD);
+    TIMER_delay_us(LCD_US_DELAY_HOLD);
 }
 
 /**
