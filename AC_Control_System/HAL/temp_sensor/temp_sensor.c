@@ -10,9 +10,10 @@
 #include "temp_sensor.h"
 
 /*define global variable*/
-u16 u16_g_adcGetValue = 0;
+extern u16 u16_g_lmTemperatureVal = 0;
 EN_tempSensorEror_T TEMPSENSOR_init(void)
 {
+	ADC_initialization();
 	u8 u8_l_errorState = DIO_init( TEMPSENSOR_CHANNEL, TEMPSENSOR_PORT, DIO_IN);
 	if ( u8_l_errorState == TEMPSENSOR_OK )
 	{
@@ -36,12 +37,22 @@ EN_tempSensorEror_T TEMPSENSOR_updateValue(void)
 	}
 }
 
-EN_tempSensorEror_T TEMPSENSOR_getValue(u16 u16_a_adcValue)
+/************************************************************************
+ The output scale factor of the LM35 is 10 mV/°C and it 
+provides an output voltage of 250 mV at 25°C .                                                                     */
+/************************************************************************/
+
+EN_tempSensorEror_T TEMPSENSOR_getValue()
 {
+	u16 u16_a_adcValue;
 	u8 u8_l_errorState = ADC_getDigitalValue( ADC_U8_CC_INT_MODE, &u16_a_adcValue );
+	f64 f64_l_adcGetInputVoltage = 0;
 	if ( u8_l_errorState == TEMPSENSOR_OK )
 	{
-		u16_g_adcGetValue = u16_a_adcValue;
+		// get the output voltage from the LM35 sensor
+		f64_l_adcGetInputVoltage = (u16_a_adcValue / ADC_RESOLUTION) * ADC_INT_REF_Voltage;
+		// mapping the output voltage into temperature degree according to the scale factor of the LM35 sensor
+		u16_g_lmTemperatureVal = (u16) ( f64_l_adcGetInputVoltage  / LM35_SCALE_FACTOR );
 		return STD_OK;
 	}
 	else
