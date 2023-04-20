@@ -37,6 +37,11 @@ void KPD_initKPD    ( void )
 	DIO_init( KPD_U8_INPUT_PIN1, KPD_U8_INPUT_PORT, DIO_IN );
 	DIO_init( KPD_U8_INPUT_PIN2, KPD_U8_INPUT_PORT, DIO_IN );
 	DIO_init( KPD_U8_INPUT_PIN3, KPD_U8_INPUT_PORT, DIO_IN );
+
+	/* Enable internal Pull-up resistor on three input pins */
+	DIO_write( KPD_U8_INPUT_PIN1, KPD_U8_INPUT_PORT, DIO_U8_PIN_HIGH );
+	DIO_write( KPD_U8_INPUT_PIN2, KPD_U8_INPUT_PORT, DIO_U8_PIN_HIGH );
+	DIO_write( KPD_U8_INPUT_PIN3, KPD_U8_INPUT_PORT, DIO_U8_PIN_HIGH );
 }
 
 /*******************************************************************************************************************************************************************/
@@ -50,7 +55,6 @@ void KPD_enableKPD  ( void )
 {
 	/* Set the two Pins configured Output to Output, in order to enable or re-enable the KPD, therefore two Pins are Output, and the other three are Input */
 	DIO_init( KPD_U8_OUTPUT_PIN1, KPD_U8_OUTPUT_PORT, DIO_OUT );
-	DIO_init( KPD_U8_OUTPUT_PIN2, KPD_U8_OUTPUT_PORT, DIO_OUT );
 }
 
 /*******************************************************************************************************************************************************************/

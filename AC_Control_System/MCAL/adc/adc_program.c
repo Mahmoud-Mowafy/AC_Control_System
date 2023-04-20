@@ -25,7 +25,7 @@ static void ( *pf_gs_interruptAction ) ( void ) = NULL;
  Output: void
  Description: Function to Initialize ADC peripheral.
 */
-vd ADC_initialization ( void )
+void ADC_initialization ( void )
 {
 	/* Step 1: Select ADC Voltage Reference ( Vref ) */	
 	switch ( ADC_U8_VREF_SELECT )
