@@ -24,17 +24,17 @@ void LCD_init(void) {
     DIO_portInit(LCD_DATA_PORT, DIO_PORT_OUT, DIO_NO_MASK);
     DIO_portWrite(LCD_DATA_PORT, DIO_U8_PORT_LOW, DIO_NO_MASK);
     TIMER_timer0NormalModeInit(DISABLED, NULL);
-    TIMER_timer0Delay(10); // 10 ms
+    TIMER_delay_ms(10); // 10 ms
     LCD_sendCommand(LCD_CMD_RETURN_HOME); // Return home
     LCD_sendCommand(LCD_CMD_MODE_4Bit); // 4 bit mode, 2 lines, 5*7 matrix
     LCD_sendCommand(LCD_CMD_DCB); // Display on, Cursor on, Blink on
     LCD_sendCommand(LCD_CMD_INC_CURSOR_RIGHT); // Increment cursor (shift to right)
     LCD_sendCommand(LCD_CMD_CLEAR); // Clear display
-    TIMER_timer0Delay(LCD_MS_DELAY_STORE);
+    TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
 	LCD_sendString((u8 *)"Hello world!\n> Hossam Elwahsh");
 
-    TIMER_timer0Delay(LCD_MS_DELAY_STORE);
+    TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
     // pre-storing bell shape at CGRAM location 0
     LCD_storeCustomCharacter(
@@ -67,20 +67,20 @@ void LCD_sendCommand(u8 u8_a_cmnd) {
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_ms(LCD_US_DELAY_PULSE); // todo 1 us
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-	TIMER_timer0Delay(LCD_US_DELAY_HOLD); // todo 200 us
+	TIMER_delay_ms(LCD_US_DELAY_HOLD); // todo 200 us
 
     // send lower nibble // todo remove shift
     DIO_portWrite(LCD_DATA_PORT, u8_a_cmnd << 3, LCD_DATA_PINS_MASK);
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_ms(LCD_US_DELAY_PULSE); // todo 1 us
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    TIMER_timer0Delay(LCD_MS_DELAY_STORE); // 2ms
+    TIMER_delay_ms(LCD_MS_DELAY_STORE); // 2ms
 }
 
 /**
@@ -114,7 +114,7 @@ void LCD_sendChar(u8 u8_a_data) {
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_ms(LCD_US_DELAY_PULSE); // todo 1 us
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
     // Send lower nibble
@@ -122,10 +122,10 @@ void LCD_sendChar(u8 u8_a_data) {
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_ms(LCD_US_DELAY_PULSE); // todo 1 us
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    TIMER_timer0Delay(LCD_US_DELAY_HOLD); // todo 200 us
+    TIMER_delay_ms(LCD_US_DELAY_HOLD); // todo 200 us
 }
 
 /**
@@ -202,4 +202,22 @@ u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location) {
 void LCD_clear(void)
 {
     LCD_sendCommand(LCD_CMD_CLEAR);
+}
+
+/* 
+ * Convert the desired number into string 
+ * and send this string to display on the LCD
+ *
+ */
+void LCD_displayInteger(u16 num )
+{
+	char buffer[32];
+	u16 i=0,rem=0;
+	while(num>0)
+	{
+		rem=num%10;
+		buffer[i]=rem+'0';
+		num=num/10;
+	}
+	LCD_sendString(buffer);
 }
