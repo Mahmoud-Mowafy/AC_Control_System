@@ -124,7 +124,4 @@ u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location);
  */
 void LCD_clear(void);
 
-
-void LCD_displayInteger(u16 num );
-
 #endif /* LCD_INTERFACE_H_ */

@@ -203,21 +203,3 @@ void LCD_clear(void)
 {
     LCD_sendCommand(LCD_CMD_CLEAR);
 }
-
-/* 
- * Convert the desired number into string 
- * and send this string to display on the LCD
- *
- */
-void LCD_displayInteger(u16 num )
-{
-	char buffer[32];
-	u16 i=0,rem=0;
-	while(num>0)
-	{
-		rem=num%10;
-		buffer[i]=rem+'0';
-		num=num/10;
-	}
-	LCD_sendString(buffer);
-}
