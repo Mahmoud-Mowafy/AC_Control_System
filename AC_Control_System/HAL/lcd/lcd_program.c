@@ -24,17 +24,17 @@ void LCD_init(void) {
     DIO_portInit(LCD_DATA_PORT, DIO_PORT_OUT, DIO_NO_MASK);
     DIO_portWrite(LCD_DATA_PORT, DIO_U8_PORT_LOW, DIO_NO_MASK);
     TIMER_timer0NormalModeInit(DISABLED, NULL);
-    TIMER_timer0Delay(10); // 10 ms
+    TIMER_delay_ms(LCD_MS_DELAY_INIT); // 10 ms
     LCD_sendCommand(LCD_CMD_RETURN_HOME); // Return home
     LCD_sendCommand(LCD_CMD_MODE_4Bit); // 4 bit mode, 2 lines, 5*7 matrix
     LCD_sendCommand(LCD_CMD_DCB); // Display on, Cursor on, Blink on
     LCD_sendCommand(LCD_CMD_INC_CURSOR_RIGHT); // Increment cursor (shift to right)
     LCD_sendCommand(LCD_CMD_CLEAR); // Clear display
-    TIMER_timer0Delay(LCD_MS_DELAY_STORE);
+    TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
 	LCD_sendString((u8 *)"Hello world!\n> Hossam Elwahsh");
 
-    TIMER_timer0Delay(LCD_MS_DELAY_STORE);
+    TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
     // pre-storing bell shape at CGRAM location 0
     LCD_storeCustomCharacter(
@@ -55,32 +55,32 @@ void LCD_init(void) {
  * another enable pulse. Finally, it delays for a longer period to ensure the command has been executed by the LCD
  * controller.
  *
- * @param [in]u8_a_cmnd The command to be sent
+ * @param [in]u8_a_cmd The command to be sent
  */
-void LCD_sendCommand(u8 u8_a_cmnd) {
-	
-	// send upper nibble // todo shift 4 instead of 3
-	DIO_portWrite(LCD_DATA_PORT, u8_a_cmnd >> 1, LCD_DATA_PINS_MASK);
-	
+void LCD_sendCommand(u8 u8_a_cmd) {
+
     // RS select command register
     DIO_write(LCD_CTRL_PIN_RS, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    // Enable Pulse
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
-
-	TIMER_timer0Delay(LCD_US_DELAY_HOLD); // todo 200 us
-
-    // send lower nibble // todo remove shift
-    DIO_portWrite(LCD_DATA_PORT, u8_a_cmnd << 3, LCD_DATA_PINS_MASK);
+	// send upper nibble // todo shift 4 instead of 3
+	DIO_portWrite(LCD_DATA_PORT, HIGHER_NIBBLE_SHIFT(u8_a_cmd), LCD_DATA_PINS_MASK);
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_us(LCD_US_DELAY_PULSE);
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    TIMER_timer0Delay(LCD_MS_DELAY_STORE); // 2ms
+	TIMER_delay_us(LCD_US_DELAY_HOLD);
+
+    // send lower nibble
+    DIO_portWrite(LCD_DATA_PORT, LOWER_NIBBLE_SHIFT(u8_a_cmd), LCD_DATA_PINS_MASK);
+
+    // Enable Pulse
+    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
+    TIMER_delay_us(LCD_US_DELAY_PULSE);
+    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
+
+    TIMER_delay_ms(LCD_MS_DELAY_STORE); // 2ms
 }
 
 /**
@@ -110,22 +110,22 @@ void LCD_sendChar(u8 u8_a_data) {
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
     // Send higher nibble
-    DIO_portWrite(LCD_DATA_PORT, u8_a_data >> 1, LCD_DATA_PINS_MASK);
+    DIO_portWrite(LCD_DATA_PORT, HIGHER_NIBBLE_SHIFT(u8_a_data), LCD_DATA_PINS_MASK);
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_us(LCD_US_DELAY_PULSE);
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
     // Send lower nibble
-    DIO_portWrite(LCD_DATA_PORT, u8_a_data << 3, LCD_DATA_PINS_MASK);
+    DIO_portWrite(LCD_DATA_PORT, LOWER_NIBBLE_SHIFT(u8_a_data), LCD_DATA_PINS_MASK);
 
     // Enable Pulse
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_timer0Delay(LCD_US_DELAY_PULSE); // todo 1 us
+    TIMER_delay_us(LCD_US_DELAY_PULSE);
     DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    TIMER_timer0Delay(LCD_US_DELAY_HOLD); // todo 200 us
+    TIMER_delay_ms(LCD_US_DELAY_HOLD);
 }
 
 /**
@@ -152,7 +152,7 @@ void LCD_sendString(u8 * u8Ptr_a_str) {
         u8Ptr_a_str++;
         u8_gs_cursor++;
         if(u8_gs_cursor == LCD_LINE_COLS) LCD_setCursor(LCD_LINE1, LCD_COL0);
-        else if(u8_gs_cursor == LCD_LINE_COLS*2) LCD_setCursor(LCD_LINE0, LCD_COL0);
+        else if(u8_gs_cursor == LCD_LINE_COLS * LCD_LINES_COUNT) LCD_setCursor(LCD_LINE0, LCD_COL0);
 	}
 }
 
@@ -184,6 +184,8 @@ u8 LCD_setCursor(u8 u8_a_line, u8 u8_a_col) {
  * @return STD_OK if successful, otherwise STD_NOK
  */
 u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location) {
+
+    if(u8_a_location > LCD_CGRAM_LOC_COUNT) return STD_NOK;
 
     // set CGRAM Address
     LCD_sendCommand(LCD_CGRAM_ADDR + (u8_a_location * LCD_CGRAM_LOC_SIZE));

@@ -26,12 +26,21 @@ void APP_initialization( void )
 	/* MCAL Initialization */
 		
 	TIMER_timer0NormalModeInit( DISABLED, NULL );
+	TIMER_timer2NormalModeInit( ENABLED, NULL );
+	DIO_init(0,DIO_U8_DDR_B_REG,DIO_OUT);
+	DIO_write(0, DIO_U8_PORT_B_REG, DIO_U8_PORT_HIGH);
 }
 
 
 
 void APP_startProgram  ( void )
 {
-	
+	while(1)
+	{
+		//DIO_toggle(0,DIO_U8_PORT_B_REG);
+		//TIMER_delay_us(200);
+		DIO_toggle(0,DIO_U8_PORT_B_REG);
+		TIMER_delay_ms(200);
+	}
 }
 

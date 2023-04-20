@@ -35,6 +35,7 @@
 #define LCD_US_DELAY_PULSE 1  //   1 us
 #define LCD_US_DELAY_HOLD 200 // 200 us
 #define LCD_MS_DELAY_STORE 2 // 2 ms
+#define LCD_MS_DELAY_INIT 10 // 10 ms
 
 /* Private Addresses */
 #define LCD_LINE0_ADDR  0x80
@@ -43,6 +44,8 @@
 
 /* Sizes */
 #define LCD_CGRAM_LOC_SIZE  8 // bytes
+#define LCD_CGRAM_LOC_COUNT  8 // 8 locations (8 bytes each)
 #define LCD_LINE_COLS  16
+#define LCD_LINES_COUNT  2
 
 #endif /* LCD_PRIVATE_H_ */

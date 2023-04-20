@@ -41,6 +41,9 @@
 //#define LCD_CTRL_PIN_RW     GND           // todo set DIO_U8_PIN_2
 #define LCD_CTRL_PIN_EN     DIO_U8_PIN_2    // todo set DIO_U8_PIN_3
 
+// todo update shifts
+#define HIGHER_NIBBLE_SHIFT(cmd)    cmd >> 1
+#define LOWER_NIBBLE_SHIFT(cmd)     cmd << 3
 
 
 #endif /* LCD_CONFIG_H_ */

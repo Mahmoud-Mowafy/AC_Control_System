@@ -70,9 +70,9 @@ void LCD_init(void);
  * another enable pulse. Finally, it delays for a longer period to ensure the command has been executed by the LCD
  * controller.
  *
- * @param [in]u8_a_cmnd The command to be sent
+ * @param [in]u8_a_cmd The command to be sent
  */
-void LCD_sendCommand(u8 u8_a_cmnd);
+void LCD_sendCommand(u8 u8_a_cmd);
 
 /**
  * @brief Sends a single character to the LCD display
@@ -123,6 +123,5 @@ u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location);
  * Clears the LCD display
  */
 void LCD_clear(void);
-
 
 #endif /* LCD_INTERFACE_H_ */
