@@ -32,9 +32,9 @@ void LCD_init(void) {
     LCD_sendCommand(LCD_CMD_CLEAR); // Clear display
     TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
-	LCD_sendString((u8 *)"Hello world!\n> Hossam Elwahsh");
+//	LCD_sendString((u8 *)"Hello world!\n> Hossam Elwahsh");
 
-    TIMER_delay_ms(LCD_MS_DELAY_STORE);
+//    TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
     // pre-storing bell shape at CGRAM location 0
     LCD_storeCustomCharacter(
@@ -43,8 +43,8 @@ void LCD_init(void) {
         );
 
     // display bell top right
-    LCD_setCursor(LCD_LINE0, LCD_COL15);
-    LCD_sendChar(LCD_CUSTOMCHAR_LOC0);
+//    LCD_setCursor(LCD_LINE0, LCD_COL15);
+//    LCD_sendChar(LCD_CUSTOMCHAR_LOC0);
 }
 
 /**
