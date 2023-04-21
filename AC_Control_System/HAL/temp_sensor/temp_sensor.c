@@ -11,52 +11,30 @@
 
 /*define global variable*/
 extern u16 u16_g_lmTemperatureVal = 0;
-EN_tempSensorEror_T TEMPSENSOR_init(void)
+void TEMPSENSOR_init(void)
 {
 	ADC_initialization();
-	u8 u8_l_errorState = DIO_init( TEMPSENSOR_CHANNEL, TEMPSENSOR_PORT, DIO_IN);
-	if ( u8_l_errorState == TEMPSENSOR_OK )
-	{
-		return STD_OK;
-	}
-	else
-	{
-		return STD_NOK;
-	}
+	//u8 u8_l_errorState = DIO_init( TEMPSENSOR_CHANNEL, TEMPSENSOR_PORT, DIO_IN);
 }
-EN_tempSensorEror_T TEMPSENSOR_updateValue(void)
+void TEMPSENSOR_updateValue(void)
 {
 	u8 u8_l_errorState = ADC_startConversion(TEMPSENSOR_CHANNEL);
-	if ( u8_l_errorState == TEMPSENSOR_OK )
-	{
-		return STD_OK;
-	}
-	else 
-	{
-		return STD_NOK;
-	}
 }
 
 /************************************************************************
  The output scale factor of the LM35 is 10 mV/°C and it 
-provides an output voltage of 250 mV at 25°C .                                                                     */
+provides an output voltage of 250 mV at 25°C .                          
 /************************************************************************/
 
-EN_tempSensorEror_T TEMPSENSOR_getValue()
+void TEMPSENSOR_getValue()
 {
-	u16 u16_a_adcValue;
-	u8 u8_l_errorState = ADC_getDigitalValue( ADC_U8_CC_INT_MODE, &u16_a_adcValue );
-	f64 f64_l_adcGetInputVoltage = 0;
-	if ( u8_l_errorState == TEMPSENSOR_OK )
-	{
+	static u16 u16_a_adcValue=0;
+	 ADC_getDigitalValue( ADC_U8_POLLING_MODE, &u16_a_adcValue );
+	u16 u16_l_adcGetInputVoltage = 0;
 		// get the output voltage from the LM35 sensor
-		f64_l_adcGetInputVoltage = (u16_a_adcValue / ADC_RESOLUTION) * ADC_INT_REF_Voltage;
+		u16_l_adcGetInputVoltage = (u16_a_adcValue * ADC_INT_REF_Voltage ) / ADC_RESOLUTION ;
 		// mapping the output voltage into temperature degree according to the scale factor of the LM35 sensor
-		u16_g_lmTemperatureVal = (u16) ( f64_l_adcGetInputVoltage  / LM35_SCALE_FACTOR );
-		return STD_OK;
-	}
-	else
-	{
-		return STD_NOK;
-	}	
+		u16_g_lmTemperatureVal = (u16) ( u16_l_adcGetInputVoltage  / LM35_SCALE_FACTOR );
+		
+		
 }
