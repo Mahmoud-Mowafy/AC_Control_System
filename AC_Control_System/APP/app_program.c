@@ -2,7 +2,7 @@
  * app_program.c
  *
  *   Created on: Apr 10, 2023
- *       Author: Hacker Kermit - https://github.com/AbdelrhmanWalaa/Moving-Car-Project.git
+ *       Author: Hacker Kermit - 
  *  Description: This file contains all Application (APP) functions' implementation.
  */ 
 
@@ -13,7 +13,7 @@
 /* Declaration and Initialization */
 
 /* Global variable to store appMode */
-
+u16 u16_g_lmTemperatureVal;
 
 /*******************************************************************************************************************************************************************/ 
 /*
@@ -26,21 +26,33 @@ void APP_initialization( void )
 	/* MCAL Initialization */
 		
 	TIMER_timer0NormalModeInit( DISABLED, NULL );
-	TIMER_timer2NormalModeInit( ENABLED, NULL );
-	DIO_init(0,DIO_U8_DDR_B_REG,DIO_OUT);
-	DIO_write(0, DIO_U8_PORT_B_REG, DIO_U8_PORT_HIGH);
+	TIMER_timer2NormalModeInit( DISABLED, NULL );
+	
+	TEMPSENSOR_init();
+	TEMPSENSOR_updateValue();
+	
+	
+	LCD_init();
+	LCD_clear();
+	LCD_setCursor(0,0);
+	LCD_sendString("Hello");
+	LCD_clear();
+	
+	
 }
 
 
 
 void APP_startProgram  ( void )
 {
-	while(1)
-	{
-		//DIO_toggle(0,DIO_U8_PORT_B_REG);
-		//TIMER_delay_us(200);
-		DIO_toggle(0,DIO_U8_PORT_B_REG);
-		TIMER_delay_ms(200);
-	}
+	u16 str[50];
+	TEMPSENSOR_getValue();
+// 	while(1)
+// 	{
+// 		LCD_setCursor(0,0);
+// 		TEMPSENSOR_getValue();
+// 	sprintf(str, "%d", u16_g_lmTemperatureVal);
+// 	LCD_sendString(str );
+// 	}
 }
 
