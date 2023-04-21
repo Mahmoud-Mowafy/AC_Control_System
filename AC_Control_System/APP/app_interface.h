@@ -19,6 +19,10 @@
 #include "../MCAL/timer/timer_interface.h"
 #include "../MCAL/dio/dio_interface.h"
 #include "../MCAL/dio/dio_private.h"
+
+/*HAl*/
+#include "../HAL/temp_sensor/temp_sensor.h"
+#include "../hal/lcd/lcd_interface.h"
 /*******************************************************************************************************************************************************************/
 /* APP Macros */
 
