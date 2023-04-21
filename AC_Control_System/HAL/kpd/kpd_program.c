@@ -14,11 +14,35 @@
 /* Declaration and Initialization */
 
 /* Global Array of KPD Keys */
-static const u8 Au8_gs_keys[3][3] = KPD_AU8_KEYS;
+static const u8 Au8_gs_keys[2][3] = KPD_AU8_KEYS;
 
 /* Global Arrays of Rows an Columns Pins */
-static const u8 Au8_gs_rowsPins[3] = { KPD_U8_R1_PIN, KPD_U8_R2_PIN, KPD_U8_R3_PIN };
+static const u8 Au8_gs_rowsPins[2] = { KPD_U8_R1_PIN, KPD_U8_R2_PIN };
 static const u8 Au8_gs_colsPins[3] = { KPD_U8_C1_PIN, KPD_U8_C2_PIN, KPD_U8_C3_PIN };
+
+/*******************************************************************************************************************************************************************/
+/*
+ Name: KPD_initKPD
+ Input: void
+ Output: void
+ Description: Function to initialize Keypad.
+*/
+void KPD_initKPD    ( void )
+{
+	/* Set the two Row Pins to Output, therefore two Pins are Output */
+	DIO_init( KPD_U8_OUTPUT_PIN1, KPD_U8_OUTPUT_PORT, DIO_OUT );
+	DIO_init( KPD_U8_OUTPUT_PIN2, KPD_U8_OUTPUT_PORT, DIO_OUT );
+	
+	/* Set the three Col Pins to Input, therefore three Pins are Input */
+	DIO_init( KPD_U8_INPUT_PIN1, KPD_U8_INPUT_PORT, DIO_IN );
+	DIO_init( KPD_U8_INPUT_PIN2, KPD_U8_INPUT_PORT, DIO_IN );
+	DIO_init( KPD_U8_INPUT_PIN3, KPD_U8_INPUT_PORT, DIO_IN );
+
+	/* Enable internal Pull-up resistor on three input pins */
+	DIO_write( KPD_U8_INPUT_PIN1, KPD_U8_INPUT_PORT, DIO_U8_PIN_HIGH );
+	DIO_write( KPD_U8_INPUT_PIN2, KPD_U8_INPUT_PORT, DIO_U8_PIN_HIGH );
+	DIO_write( KPD_U8_INPUT_PIN3, KPD_U8_INPUT_PORT, DIO_U8_PIN_HIGH );
+}
 
 /*******************************************************************************************************************************************************************/
 /*
@@ -29,10 +53,8 @@ static const u8 Au8_gs_colsPins[3] = { KPD_U8_C1_PIN, KPD_U8_C2_PIN, KPD_U8_C3_P
 */
 void KPD_enableKPD  ( void )
 {
-	/* Set the four Pins configured Output to Output, in order to enable or re-enable the KPD, therefore four Pins are Output, and the other four are Input */
+	/* Set the two Pins configured Output to Output, in order to enable or re-enable the KPD, therefore two Pins are Output, and the other three are Input */
 	DIO_init( KPD_U8_OUTPUT_PIN1, KPD_U8_OUTPUT_PORT, DIO_OUT );
-	DIO_init( KPD_U8_OUTPUT_PIN2, KPD_U8_OUTPUT_PORT, DIO_OUT );
-	DIO_init( KPD_U8_OUTPUT_PIN3, KPD_U8_OUTPUT_PORT, DIO_OUT );
 }
 
 /*******************************************************************************************************************************************************************/
@@ -44,10 +66,8 @@ void KPD_enableKPD  ( void )
 */
 void KPD_disableKPD ( void )
 {
-	/* Set the four Pins configured Output to Input, in order to disable the KPD, therefore all KPD pins are Input */
+	/* Set the two Pins configured Output to Input, in order to disable the KPD, therefore all KPD pins are Input */
 	DIO_init( KPD_U8_OUTPUT_PIN1, KPD_U8_OUTPUT_PORT, DIO_IN );
-	DIO_init( KPD_U8_OUTPUT_PIN2, KPD_U8_OUTPUT_PORT, DIO_IN );
-	DIO_init( KPD_U8_OUTPUT_PIN3, KPD_U8_OUTPUT_PORT, DIO_IN );
 }
 
 /*******************************************************************************************************************************************************************/
@@ -72,13 +92,13 @@ u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 		*pu8_a_returnedKeyValue = KPD_U8_KEY_NOT_PRESSED;
 		
 		/* Loop: On Rows -> Output ( i.e.: Set Pin ) */
-		for ( u8 Loc_u8RowsCounter = 0; Loc_u8RowsCounter <= 3; Loc_u8RowsCounter++ )
+		for ( u8 Loc_u8RowsCounter = 0; Loc_u8RowsCounter <= 1; Loc_u8RowsCounter++ )
 		{
 			/* Step 2: Activate Row ( i.e. Set Pin Low ) */
 			DIO_write( Au8_gs_rowsPins[Loc_u8RowsCounter], KPD_U8_OUTPUT_PORT, DIO_U8_PIN_LOW );
 			
 			/* Loop: On Columns -> Input ( i.e. Get Pin ) */
-			for ( u8 Loc_u8ColsCounter = 0; Loc_u8ColsCounter <= 3; Loc_u8ColsCounter++ )
+			for ( u8 Loc_u8ColsCounter = 0; Loc_u8ColsCounter <= 2; Loc_u8ColsCounter++ )
 			{
 				/* Step 3: Get the value of each Key */
 				DIO_read( Au8_gs_colsPins[Loc_u8ColsCounter], KPD_U8_INPUT_PORT, &u8_l_pinValue );
@@ -88,7 +108,7 @@ u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 				{
 					/* Push buttons often generate spurious open/close transitions when pressed, due to mechanical and physical issues: these transitions may be read as multiple presses in a very short time fooling the program. This example demonstrates how to debounce an input, which means checking twice in a short period of time to make sure the pushbutton is definitely pressed. Without debouncing, pressing the button once may cause unpredictable results. */
 					/* Delay debouncing time of the Key */
-					_delay_ms(20);
+					TIMER_delay_ms( 20 );
 					
 					/* Step 4: Recheck if the Key is still Pressed */
 					DIO_read( Au8_gs_colsPins[Loc_u8ColsCounter], KPD_U8_INPUT_PORT, &u8_l_pinValue );
@@ -97,7 +117,7 @@ u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 					/* Loop: Until releasing Key ( i.e. Pin value is High ) */
 					while ( u8_l_pinValue == DIO_U8_PIN_LOW )
 					{
-						DIO_read( Au8_gs_colsPins[Loc_u8ColsCounter], KPD_U8_INPUT_PORT, &u8_l_pinValue );					
+						DIO_read( Au8_gs_colsPins[Loc_u8ColsCounter], KPD_U8_INPUT_PORT, &u8_l_pinValue );				
 					}
 					
 					/* Step 5: Update ReturnedKeyValue with the Pressed Key value */
