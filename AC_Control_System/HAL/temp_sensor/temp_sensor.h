@@ -37,7 +37,7 @@ typedef enum {
  * @return An EN_tempSensorEror_T value indicating the success or failure of the operation
  *         (TEMPSENSOR_OK if the operation succeeded, TEMPSENSOR_ERROR otherwise)
  */	
-EN_tempSensorEror_T TEMPSENSOR_init(void);
-EN_tempSensorEror_T TEMPSENSOR_updateValue(void);
-EN_tempSensorEror_T TEMPSENSOR_getValue(void);
+void TEMPSENSOR_init(void);
+void TEMPSENSOR_updateValue(void);
+void TEMPSENSOR_getValue(void);
 #endif /* TEMP_SENSOR_H_ */
