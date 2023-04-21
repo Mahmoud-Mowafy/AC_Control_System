@@ -14,7 +14,7 @@
 #include "../../MCAL/adc/adc_interface.h"
 #include "../../MCAL/dio/dio_private.h"
 /*HAL*/
-#include "../kpd/KPD_Interface.h"
+#include "../kpd/kpd_interface.h"
 /*LIB*/
 #include "../../LIB/bit_math.h"
 #include "../../LIB/std.h"
