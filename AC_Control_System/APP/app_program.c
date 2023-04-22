@@ -33,9 +33,23 @@ void APP_initialization( void )
 	
 	
 	LCD_init();
+    LCD_sendString("Welcome");
+    LCD_setCursor(1,0);
+    LCD_sendString("Hacker Kermit Team");
+    TIMER_delay_ms(1000);
+
+    LCD_sendString("AC Control System");
+    LCD_setCursor(1,0);
+    LCD_sendString("The default temp = 20 ");
+    TIMER_delay_ms(1000);
 	LCD_clear();
+
+    LCD_sendString("Please enter your desired temp");
+    LCD_setCursor(1,0);
+    LCD_sendString("Hacker Kermit Team");
+    TIMER_delay_ms(1000);
 	LCD_setCursor(0,0);
-	LCD_sendString("Hello");
+
 	LCD_clear();
 	
 	
