@@ -98,7 +98,7 @@ void APP_adjustTemp()
 	u8 u8_l_pressedkey = 0;
 	KPD_getPressedKey(&u8_l_pressedkey);
 	switch(u8_l_pressedkey)
-	{
+	{ 
 		case INCREMENT:
 			APP_incrementTemperatureValue(&u16_g_temperatureValue);
 		break;
