@@ -23,18 +23,31 @@
 /*HAl*/
 #include "../HAL/temp_sensor/temp_sensor.h"
 #include "../hal/lcd/lcd_interface.h"
+//#include "../HAL/kpd/kpd_interface.h"
+#include "../HAL/kpd/keypad.h"
 /*******************************************************************************************************************************************************************/
 /* APP Macros */
+#define DEFAULT_TEMP     20
+#define FREE_CELLS       12
+#define MINIMUM_TEMP	 18
 
 /* APP Modes */
 
+#define INCREMENT			'1'
+#define DECREMENT			'2'
+#define SET					'3'
+#define ADJUST				'4'
+#define RESET_TO_DEFAULT	'5'
 
 /*******************************************************************************************************************************************************************/
 /* APP Functions' Prototypes */
 
 void APP_initialization( void );
 void APP_startProgram  ( void );
-
+void APP_incrementTemperatureValue(&u16_g_temperatureValue);
+void APP_decrementTemperatureValue(&u16_g_temperatureValue);
+void APP_setTemperatureValue(&u16_g_temperatureValue);
+void APP_resetTemperatureValue(&u16_g_temperatureValue);
 /*******************************************************************************************************************************************************************/
 
 #endif /* APP_H_ */

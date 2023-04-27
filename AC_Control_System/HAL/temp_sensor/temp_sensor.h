@@ -21,9 +21,9 @@
 
 #define TEMPSENSOR_CHANNEL      0
 #define TEMPSENSOR_PORT			DIO_U8_PORT_A_REG
-#define ADC_INT_REF_Voltage         (2.56f)
+#define ADC_INT_REF_Voltage         (2560UL)
 #define ADC_RESOLUTION               1024
-#define LM35_SCALE_FACTOR			(0.01f)
+#define LM35_SCALE_FACTOR			(10)
 /******************************************************************************************/
 typedef enum {
 	TEMPSENSOR_OK,
@@ -38,6 +38,5 @@ typedef enum {
  *         (TEMPSENSOR_OK if the operation succeeded, TEMPSENSOR_ERROR otherwise)
  */	
 void TEMPSENSOR_init(void);
-void TEMPSENSOR_updateValue(void);
-void TEMPSENSOR_getValue(void);
+void TEMPSENSOR_getValue(u16 *u16_g_lmTemperatureVal);
 #endif /* TEMP_SENSOR_H_ */
