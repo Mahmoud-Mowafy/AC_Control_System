@@ -10,15 +10,11 @@
 #include "temp_sensor.h"
 
 /*define global variable*/
-extern u16 u16_g_lmTemperatureVal = 0;
+
 void TEMPSENSOR_init(void)
 {
 	ADC_initialization();
 	//u8 u8_l_errorState = DIO_init( TEMPSENSOR_CHANNEL, TEMPSENSOR_PORT, DIO_IN);
-}
-void TEMPSENSOR_updateValue(void)
-{
-	u8 u8_l_errorState = ADC_startConversion(TEMPSENSOR_CHANNEL);
 }
 
 /************************************************************************
@@ -26,15 +22,14 @@ void TEMPSENSOR_updateValue(void)
 provides an output voltage of 250 mV at 25°C .                          
 /************************************************************************/
 
-void TEMPSENSOR_getValue()
+void TEMPSENSOR_getValue(u16 *u16_g_lmTemperatureVal)
 {
-	static u16 u16_a_adcValue=0;
+	 u16 u16_a_adcValue=0;
+	 ADC_startConversion(TEMPSENSOR_CHANNEL);
 	 ADC_getDigitalValue( ADC_U8_POLLING_MODE, &u16_a_adcValue );
 	u16 u16_l_adcGetInputVoltage = 0;
 		// get the output voltage from the LM35 sensor
-		u16_l_adcGetInputVoltage = (u16_a_adcValue * ADC_INT_REF_Voltage ) / ADC_RESOLUTION ;
+	u16_l_adcGetInputVoltage =  ( (u16_a_adcValue * ADC_INT_REF_Voltage ) / ADC_RESOLUTION ) ;
 		// mapping the output voltage into temperature degree according to the scale factor of the LM35 sensor
-		u16_g_lmTemperatureVal = (u16) ( u16_l_adcGetInputVoltage  / LM35_SCALE_FACTOR );
-		
-		
+	*u16_g_lmTemperatureVal = (u16) ( u16_l_adcGetInputVoltage  / LM35_SCALE_FACTOR );
 }
