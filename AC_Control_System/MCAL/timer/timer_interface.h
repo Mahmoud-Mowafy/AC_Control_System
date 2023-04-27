@@ -175,6 +175,8 @@ EN_TIMER_ERROR_T TIMER_timer2Start(u16 u16_a_prescaler);
  */
 EN_TIMER_ERROR_T TIMER_delay_us(u16 u16_a_interval);
 
+EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval);
+
 /**
  * @brief Set callback function for timer overflow interrupt
  *
