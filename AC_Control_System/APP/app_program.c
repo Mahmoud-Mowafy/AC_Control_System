@@ -9,19 +9,17 @@
 /* APP */
 #include "app_interface.h"
 
-/*******************************************************************************************************************************************************************/
+/* ***************************************************************************************************************/
 /* Declaration and Initialization */
 
 /* Global variable to store appMode */
 extern u8 u8_g_timeOut;
-extern u8 u8_g_pressFlag;
-extern u8_g_keypadPressFlag;
-u16 u16_g_temperatureValue = 0;
-/* The pattern */
+//extern u8 u8_g_pressFlag;
+//extern u8 u8_g_keypadPressFlag;
+u16 u16_g_desiredTemperatureValue = 0;
+u8 u8_g_currentAppState = STATE_ADJUST;
 
-u8 u8_g_pattern[] = {0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C};
-
-/*******************************************************************************************************************************************************************/ 
+/* ***************************************************************************************************************/
 /*
 
 */
@@ -41,157 +39,150 @@ void APP_initialization( void )
     /*initialize LCD*/
  	LCD_init();
 	LCD_setCursor(0,4);
-    LCD_sendString("Welcome");
-    LCD_setCursor(1,0);
-    LCD_sendString("Hacker Kermit");
-    TIMER_delay_ms(1000);
-	LCD_clear();
-	
-	LCD_setCursor(0,0);
-    LCD_sendString("AC Control");
-    LCD_setCursor(1,0);
-    LCD_sendString("default temp=20 ");
-    TIMER_delay_ms(1000);
+    LCD_sendString((u8 *)"Welcome\nHacker Kermit");
+    TIMER_delay_ms(2000);
 	LCD_clear();
 
-   /******************************************************************/
+    LCD_sendString((u8 *)"AC Control\ndefault temp: 20");
+    TIMER_delay_ms(2000);
+	LCD_clear();
+
+    u16_g_desiredTemperatureValue = DEFAULT_TEMP;
+   /* ****************************************************************/
 }
 
 
 
 void APP_startProgram  ( void )
 {
-	APP_adjustTemp();
-	u16 str[50];
-    u8 u8_l_modeSelect = ADJUST;
     while (1)
     {
-		LCD_setCursor(0,0);
-		TEMPSENSOR_getValue(&u16_g_temperatureValue);
-		sprintf(str, "%d", u16_g_temperatureValue);
-		LCD_sendString(str);
-		
-        KPD_getPressedKey(&u8_l_modeSelect);
-        switch(u8_l_modeSelect)
-        {
-            case ADJUST:
-				 APP_adjustTemp();
+        switch (u8_g_currentAppState) {
+
+            case STATE_ADJUST:
+                // run the adjust temp screen and algorithm
+                APP_startAdjustTemp();
                 break;
-            case RESET_TO_DEFAULT:
-				 	
+
+            case STATE_RUNNING:
+
+                // Clear LCD
+                LCD_clear();
+                // set cursor to start of second line
+                LCD_setCursor(LCD_LINE1, LCD_COL0);
+
+                // read current temperature from sensor
+                u16 u16_l_currentTemp = 0;
+                TEMPSENSOR_getValue(&u16_l_currentTemp);
+
+                // show current reading on LCD
+                u8 str_lcurrentTempStr[17];
+                sprintf((char *) str_lcurrentTempStr, "Current temp: %d", u16_l_currentTemp);
+                LCD_sendString((u8 *) str_lcurrentTempStr);
+
+                // Check if current temperature is higher than desired
+                // in a real world situation we should turn the compressor ON to cool the air
+                if(u16_l_currentTemp > u16_g_desiredTemperatureValue)
+                {
+                    // show bell/buzzer icon
+                    LCD_setCursor(LCD_LINE0, LCD_COL15); // last char in first line
+                    LCD_sendChar(LCD_CUSTOMCHAR_LOC0); // show bell/buzzer icon on LCD
+
+                    // turn on the buzzer sound
+                    BUZZER_on();
+                }else{
+                    BUZZER_off();
+                }
+                break;
+            default:
+                //
                 break;
         }
     }
 }
 
 
-void APP_adjustTemp()
+void APP_startAdjustTemp()
 {
 	LCD_clear();
-	LCD_setCursor(0,0);
-	LCD_sendString("1 incre, 2 decre"); 
-	LCD_setCursor(1,0);
-	LCD_sendString("3 set temperature");
-	TIMER_delay_ms(2000);
-	/*Storing the entered within 3 seconds*/
-	TIMER_intDelay_ms(3000);    //wait a 3 seconds and scan the keypad
-	u8 u8_l_pressedkey = 0;
-	KPD_getPressedKey(&u8_l_pressedkey);
-	switch(u8_l_pressedkey)
-	{ 
-		case INCREMENT:
-			APP_incrementTemperatureValue(&u16_g_temperatureValue);
-		break;
-		case DECREMENT:
-			APP_decrementTemperatureValue(&u16_g_temperatureValue);
-		break;
-		case SET:
-			APP_setTemperatureValue(&u16_g_temperatureValue);
-		break;
-	}
+	LCD_sendString((u8 *) "Please choose\nthe required tmp");
+    TIMER_delay_ms(2000);
+    LCD_sendString((u8 *) "    Controls\n1(+) 2(-) 3(set)");
+    TIMER_delay_ms(2000);
 
-    
-    KPD_disableKPD();
 
-    u8 u8_l_customShapeCell = 0;
-    u8 u8_l_miniTemp = 18;
-    LCD_setCursor(1,0);
-    LCD_storeCustomCharacter(
-    u8_g_pattern,
-    LCD_CUSTOMCHAR_LOC0
-    );
-    LCD_setCursor(1,0);
-    for(u8_l_customShapeCell; u8_l_customShapeCell < (u8_l_enteredTemp - u8_l_miniTemp); u8_l_customShapeCell++)
+    LCD_clear();
+
+    u8 tempVisualizer[17];
+    sprintf((char *)tempVisualizer, "Min:18 %d Max:35", u16_g_desiredTemperatureValue);
+//    sprintf((char *)tempVisualizer, "%d°C (XX->XX)", u16_g_desiredTemperatureValue);
+    LCD_sendString(tempVisualizer);
+
+    // Next Line
+    LCD_setCursor(LCD_LINE1,LCD_COL0);
+
+    u8 str_l_tempPattern[17];
+    // -1 to compensate LCD size only allowing 16 chars because the range of our AC temperature
+    // is from MINIMUM_TEMP (18) to MAXIMUM_TEMP (35) which is 17 steps
+    memset(str_l_tempPattern, '|', u16_g_desiredTemperatureValue - MINIMUM_TEMP - 1);
+    LCD_sendString(str_l_tempPattern);
+
+    /* timout 10 seconds */
+    TIMER_intDelay_ms(TIMEOUT_MS_DELAY);    // timeout after 10 seconds if no key is pressed
+
+    /* Adjust Screen */
+    while(u8_g_currentAppState != STATE_RUNNING)
     {
-	    LCD_sendChar(LCD_CUSTOMCHAR_LOC0);
+        /* Check if keypad keys are pressed */
+        u8 u8_l_pressedkey = 0;
+        KPD_getPressedKey(&u8_l_pressedkey);
+        switch (u8_l_pressedkey) {
+            case BTN_INCREMENT:
+            case BTN_DECREMENT:
+                APP_changeTemp(u8_l_pressedkey == BTN_INCREMENT ? ACTION_INCREMENT : ACTION_DECREMENT);
+
+                //reset timeout counter
+                TIMER_intDelay_ms(TIMEOUT_MS_DELAY);
+                break;
+
+            case BTN_SET:
+                // cancel timeout check (timer)
+                u8_g_currentAppState = STATE_RUNNING;
+                TIMER_timer2Stop();
+                KPD_disableKPD();
+                break;
+            default:
+                //
+                break;
+        }
+
+        if(u8_g_timeOut == 1) {
+            u16_g_desiredTemperatureValue = DEFAULT_TEMP;
+            u8_g_timeOut = 0;
+            KPD_disableKPD();
+            u8_g_currentAppState = STATE_RUNNING;
+        }
     }
-    if(u8_l_enteredTemp == 0)
-		u8_l_enteredTemp = DEFAULT_TEMP;
-    LCD_clear();	
 }
 
-void APP_incrementTemperatureValue(&u16_g_temperatureValue)
-{	
-	u8 u8_l_pressedkey = 0;
-	u8 u8_l_customShapeCell = 0;
-	u16 str[50];
-	LCD_setCursor(0,0);
-	LCD_sendString("Min=18    Max=34");
-	/*Storing the entered within 3 seconds*/
-	TIMER_intDelay_ms(3000);    //wait a 3 seconds and scan the keypad
-	while( u8_g_timeOut == 0 )
-	{
-		KPD_getPressedKey(&u8_l_pressedkey);
-		if(INCREMENT == u8_l_pressedkey )
-		{
-			*u16_g_temperatureValue++;
-		}
-	}
-	sprintf(str, "%d", u16_g_temperatureValue);
-	LCD_setCursor(0,8);
-	LCD_sendString(str);
-	LCD_setCursor(1,0);
-    for(u8_l_customShapeCell; u8_l_customShapeCell < (u16_g_temperatureValue - MINIMUM_TEMP); u8_l_customShapeCell++)
+void APP_changeTemp(u8 u8_a_action)
+{
+    LCD_setCursor(LCD_LINE0, LCD_COL7);
+    if(u8_a_action == ACTION_INCREMENT)
     {
-	    LCD_sendChar(LCD_CUSTOMCHAR_LOC0);
+        u16_g_desiredTemperatureValue++;
+        LCD_sendString((u8 *)itoa(u16_g_desiredTemperatureValue, (char *)NULL, 10));
+    }else if(u8_a_action == ACTION_DECREMENT)
+    {
+        u16_g_desiredTemperatureValue--;
+        LCD_sendString((u8 *)itoa(u16_g_desiredTemperatureValue, (char *)NULL, 10));
     }
-
 }
 
-void APP_decrementTemperatureValue(&u16_g_temperatureValue)
+void APP_resetToDefault()
 {
-	u8 u8_l_pressedkey = 0;
-	u8 u8_l_customShapeCell = 0;
-	u16 str[50];
-	LCD_setCursor(0,0);
-	LCD_sendString("Min=18    Max=34");
-	/*Storing the entered within 3 seconds*/
-	TIMER_intDelay_ms(3000);    //wait a 3 seconds and scan the keypad
-	while( u8_g_timeOut == 0 )
-	{
-		KPD_getPressedKey(&u8_l_pressedkey);
-		if(INCREMENT == u8_l_pressedkey )
-		{
-			*u16_g_temperatureValue--;
-		}
-	}
-	sprintf(str, "%d", u16_g_temperatureValue);
-	LCD_setCursor(0,8);
-	LCD_sendString(str);
-	LCD_setCursor(1,0);
-	for(u8_l_customShapeCell; u8_l_customShapeCell < (u16_g_temperatureValue - MINIMUM_TEMP); u8_l_customShapeCell++)
-	{
-		LCD_sendChar(LCD_CUSTOMCHAR_LOC0);
-	}
-}
-
-void APP_setTemperatureValue(&u16_g_temperatureValue)
-{
-	
-}
-void APP_resetTemperatureValue(&u16_g_temperatureValue)
-{
-	
+    u16_g_desiredTemperatureValue = DEFAULT_TEMP;
+    u8_g_currentAppState = STATE_RUNNING;
 }
 
 
@@ -227,6 +218,7 @@ void APP_resetTemperatureValue(&u16_g_temperatureValue)
 //         LCD_storeCustomCharacter(u8_g_pattern, LCD_CUSTOMCHAR_LOC0);
 //     }
 
+/*
 	u8_l_tmepString[stringIndex] = 0;
 	u8_l_enteredTemp = u8_l_tmepString[1] + ( u8_l_tmepString[0] * 10 );
 	LCD_setCursor(1,0);
@@ -235,3 +227,4 @@ void APP_resetTemperatureValue(&u16_g_temperatureValue)
 	u8 u8_l_enteredTempReminder = 0;
 	u8 u8_l_enteredAscii;
 	LCD_setCursor(0,0);
+ */

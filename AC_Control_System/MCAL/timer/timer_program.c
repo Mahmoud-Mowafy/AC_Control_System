@@ -297,6 +297,9 @@ EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval) {
 		 return TIMER_ERROR;
 	}       
     else {
+        /* Stop timer if running */
+        TIMER_timer2Stop();
+
         /* Clear the TCCR Register*/
         TIMER_U8_TCCR2_REG = 0x00;
         /*Get the time in second*/
