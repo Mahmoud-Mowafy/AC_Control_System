@@ -18,7 +18,7 @@
 #define LCD_OPT_DISP            1
 
 // Show/Hide Cursor
-#define LCD_OPT_CURSOR          1
+#define LCD_OPT_CURSOR          0
 
 // Enable/Disable Blinking
 #define LCD_OPT_BLINK           0

@@ -58,6 +58,7 @@ void APP_initialization( void );
 void APP_startProgram  ( void );
 
 void APP_changeTemp(u8 u8_a_action);
+void APP_switchState(u8 u8_a_state);
 void APP_resetToDefault();
 void APP_startAdjustTemp();
 /*******************************************************************************************************************************************************************/

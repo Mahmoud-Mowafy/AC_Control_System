@@ -65,20 +65,15 @@ void APP_startProgram  ( void )
                 break;
 
             case STATE_RUNNING:
-
-                // Clear LCD
-                LCD_clear();
-                // set cursor to start of second line
-                LCD_setCursor(LCD_LINE1, LCD_COL0);
-
+            {
+                // todo check for reset/adjust buttons click
                 // read current temperature from sensor
                 u16 u16_l_currentTemp = 0;
                 TEMPSENSOR_getValue(&u16_l_currentTemp);
 
-                // show current reading on LCD
-                u8 str_lcurrentTempStr[17];
-                sprintf((char *) str_lcurrentTempStr, "Current temp: %d", u16_l_currentTemp);
-                LCD_sendString((u8 *) str_lcurrentTempStr);
+                // update current reading on LCD
+                LCD_setCursor(LCD_LINE1, LCD_COL14);
+                LCD_sendString((u8 *)itoa(u16_l_currentTemp, (char *)NULL, 10));
 
                 // Check if current temperature is higher than desired
                 // in a real world situation we should turn the compressor ON to cool the air
@@ -91,9 +86,17 @@ void APP_startProgram  ( void )
                     // turn on the buzzer sound
                     BUZZER_on();
                 }else{
+                    // clear bell/buzzer icon
+                    LCD_setCursor(LCD_LINE0, LCD_COL15); // last char in first line
+                    LCD_sendChar(' '); // clear buzzer icon
+
+                    // turn buzzer off
                     BUZZER_off();
                 }
                 break;
+            }
+
+
             default:
                 //
                 break;
@@ -147,9 +150,10 @@ void APP_startAdjustTemp()
 
             case BTN_SET:
                 // cancel timeout check (timer)
-                u8_g_currentAppState = STATE_RUNNING;
                 TIMER_timer2Stop();
-                KPD_disableKPD();
+
+                // switch app to running state
+                APP_switchState(STATE_RUNNING);
                 break;
             default:
                 //
@@ -157,11 +161,42 @@ void APP_startAdjustTemp()
         }
 
         if(u8_g_timeOut == 1) {
-            u16_g_desiredTemperatureValue = DEFAULT_TEMP;
+
+            // reset timeout flag
             u8_g_timeOut = 0;
-            KPD_disableKPD();
-            u8_g_currentAppState = STATE_RUNNING;
+            // use default temperature
+            u16_g_desiredTemperatureValue = DEFAULT_TEMP;
+
+            // switch app to running state
+            APP_switchState(STATE_RUNNING);
         }
+    }
+}
+
+void APP_switchState(u8 u8_a_state){
+    switch (u8_a_state) {
+        case  STATE_RUNNING:
+        {
+            // disable Inc/Dec/Set keys
+            KPD_disableKPD();
+
+            // Clear LCD
+            LCD_clear();
+
+            /* Initialize constant "running" state UI text */
+
+            // set cursor to start of second line
+            LCD_setCursor(LCD_LINE1, LCD_COL0);
+            LCD_sendString( (u8 *) "Current temp: ");
+            break;
+        }
+        case STATE_ADJUST:
+        {
+            break;
+        }
+        default:
+            // ignored
+            break;
     }
 }
 
