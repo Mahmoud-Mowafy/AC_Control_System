@@ -20,7 +20,7 @@ void TEMPSENSOR_init(void)
 /************************************************************************
  The output scale factor of the LM35 is 10 mV/°C and it 
 provides an output voltage of 250 mV at 25°C .                          
-/************************************************************************/
+************************************************************************/
 
 void TEMPSENSOR_getValue(u16 *u16_g_lmTemperatureVal)
 {
