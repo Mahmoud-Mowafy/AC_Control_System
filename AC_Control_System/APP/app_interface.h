@@ -16,6 +16,7 @@
 #include "../LIB/bit_math.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 /* MCAL */
 #include "../MCAL/timer/timer_interface.h"

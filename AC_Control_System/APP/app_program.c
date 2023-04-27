@@ -94,6 +94,9 @@ void APP_startProgram  ( void )
                     BUZZER_off();
                 }
                 break;
+            default:
+                //
+                break;
         }
     }
 }
@@ -148,6 +151,9 @@ void APP_startAdjustTemp()
                 TIMER_timer2Stop();
                 KPD_disableKPD();
                 break;
+            default:
+                //
+                break;
         }
 
         if(u8_g_timeOut == 1) {
@@ -165,11 +171,11 @@ void APP_changeTemp(u8 u8_a_action)
     if(u8_a_action == ACTION_INCREMENT)
     {
         u16_g_desiredTemperatureValue++;
-        LCD_sendChar(u16_g_desiredTemperatureValue + '0');
+        LCD_sendString((u8 *)itoa(u16_g_desiredTemperatureValue, (char *)NULL, 10));
     }else if(u8_a_action == ACTION_DECREMENT)
     {
         u16_g_desiredTemperatureValue--;
-        LCD_sendChar(u16_g_desiredTemperatureValue + '0');
+        LCD_sendString((u8 *)itoa(u16_g_desiredTemperatureValue, (char *)NULL, 10));
     }
 }
 
