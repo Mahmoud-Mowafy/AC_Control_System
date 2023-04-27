@@ -448,3 +448,5 @@ cmake-build-debug/
 AC_Control_Project/Debug/
 /AC-controller-simulation/Project Backups/
 /AC-controller-simulation/*.workspace
+/Simulation/Project Backups/
+/Simulation/*.workspace
