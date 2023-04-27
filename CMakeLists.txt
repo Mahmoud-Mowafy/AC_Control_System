@@ -31,4 +31,4 @@ add_executable(Shared
         AC_Control_System/MCAL/timer/timer_private.h
         AC_Control_System/MCAL/timer/timer_program.c
         AC_Control_System/main.c
-        )
+        AC_Control_System/HAL/kpd/kpd_program.c AC_Control_System/HAL/buzzer/buzzer.c)

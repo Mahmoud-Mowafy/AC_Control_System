@@ -24,7 +24,7 @@
  * @return void
  */
 void BUZZER_init();
-void BUZZER_on(u8 u8_a_buzPort, u8 u8_a_buzPin);
-void BUZZER_off(u8 u8_a_buzPort, u8 u8_a_buzPin);
+void BUZZER_on();
+void BUZZER_off();
 
 #endif /* BUZZER_H_ */

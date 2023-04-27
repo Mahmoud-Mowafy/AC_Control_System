@@ -446,3 +446,5 @@ cmake-build-debug/
 .$*.bkp
 *.dtmp
 AC_Control_Project/Debug/
+/AC-controller-simulation/Project Backups/
+/AC-controller-simulation/*.workspace

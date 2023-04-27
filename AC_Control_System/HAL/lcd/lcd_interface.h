@@ -90,7 +90,7 @@ void LCD_sendChar(u8 u8_a_data);
  * @brief Displays a null-terminated string on the LCD screen.
  *
  * This function iterates through a null-terminated string and displays it
- * on the LCD screen. If the character '\n' is encountered, the cursor is
+ * on the LCD screen. If the character '\\n' is encountered, the cursor is
  * moved to the beginning of the next line.
  *
  * @param [in]u8Ptr_a_str A pointer to the null-terminated string to be displayed.

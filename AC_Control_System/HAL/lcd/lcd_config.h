@@ -23,11 +23,11 @@
 #define LCD_DATA_PORT 0
 
 // DATA PINS
-#define LCD_DATA_PIN_D4     DIO_U8_PIN_3
-#define LCD_DATA_PIN_D5     DIO_U8_PIN_4
-#define LCD_DATA_PIN_D6     DIO_U8_PIN_5
-#define LCD_DATA_PIN_D7     DIO_U8_PIN_6
-#define LCD_DATA_PINS_MASK    DIO_MASK_BITS_3_4_5_6
+#define LCD_DATA_PIN_D4     DIO_U8_PIN_4
+#define LCD_DATA_PIN_D5     DIO_U8_PIN_5
+#define LCD_DATA_PIN_D6     DIO_U8_PIN_6
+#define LCD_DATA_PIN_D7     DIO_U8_PIN_7
+#define LCD_DATA_PINS_MASK    DIO_MASK_BITS_4_5_6_7
 
 /** LCD Control */
 /* LCD_CTRL_PORT Options
@@ -38,12 +38,12 @@
  * */
 #define LCD_CTRL_PORT 0
 #define LCD_CTRL_PIN_RS     DIO_U8_PIN_1
-//#define LCD_CTRL_PIN_RW     GND           // todo set DIO_U8_PIN_2
-#define LCD_CTRL_PIN_EN     DIO_U8_PIN_2    // todo set DIO_U8_PIN_3
+#define LCD_CTRL_PIN_RW     DIO_U8_PIN_2
+#define LCD_CTRL_PIN_EN     DIO_U8_PIN_3
 
 // todo update shifts
-#define HIGHER_NIBBLE_SHIFT(cmd)    cmd >> 1
-#define LOWER_NIBBLE_SHIFT(cmd)     cmd << 3
+#define HIGHER_NIBBLE_SHIFT(cmd)    cmd // cmd >> 0
+#define LOWER_NIBBLE_SHIFT(cmd)     cmd << 4
 
 
 #endif /* LCD_CONFIG_H_ */
