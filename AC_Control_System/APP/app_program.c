@@ -104,7 +104,12 @@ void APP_startProgram  ( void )
 
                 // update current reading on LCD
                 LCD_setCursor(LCD_LINE1, LCD_COL14);
-                LCD_sendString((u8 *)itoa(u16_l_currentTemp, (char *)NULL, 10));
+/*                LCD_sendString((u8 *)itoa(u16_l_currentTemp, (char *)NULL, 10));*/
+
+				//edit the LCD_sendString
+				u16 str[50];
+				sprintf(str, "%d", u16_l_currentTemp);
+				LCD_sendString(str);
 //                LCD_sendString("22");
 
                 // Check if current temperature is higher than desired
