@@ -450,3 +450,5 @@ AC_Control_Project/Debug/
 /AC-controller-simulation/*.workspace
 /Simulation/Project Backups/
 /Simulation/*.workspace
+
+*.workspace
