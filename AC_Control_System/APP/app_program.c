@@ -111,12 +111,13 @@ void APP_startProgram  ( void )
             {
                 // todo check for reset/adjust buttons click
                 // read current temperature from sensor
-                u16 u16_l_currentTemp = 0;
+                u16 u16_l_currentTemp = DEFAULT_TEMP;
                 TEMPSENSOR_getValue(&u16_l_currentTemp);
 
                 // update current reading on LCD
                 LCD_setCursor(LCD_LINE1, LCD_COL14);
                 LCD_sendString((u8 *)itoa(u16_l_currentTemp, (char *)NULL, 10));
+//                LCD_sendString("22");
 
                 // Check if current temperature is higher than desired
                 // in a real world situation we should turn the compressor ON to cool the air
@@ -162,6 +163,7 @@ void APP_switchState(u8 u8_a_state){
             // set cursor to start of second line
             LCD_setCursor(LCD_LINE1, LCD_COL0);
             LCD_sendString( (u8 *) "Current temp: ");
+            u8_g_currentAppState = u8_a_state;
             break;
         }
         case STATE_ADJUST:
@@ -187,10 +189,9 @@ void APP_switchState(u8 u8_a_state){
             memset(str_l_tempPattern, '|', u16_g_desiredTemperatureValue - MINIMUM_TEMP - 1);
             LCD_sendString(str_l_tempPattern);
 
-
             /* timout 10 seconds */
             TIMER_intDelay_ms(TIMEOUT_MS_DELAY);    // timeout after 10 seconds if no key is pressed
-
+            u8_g_currentAppState = u8_a_state;
             break;
         }
         default:
