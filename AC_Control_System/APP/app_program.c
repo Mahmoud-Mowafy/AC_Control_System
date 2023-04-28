@@ -65,33 +65,21 @@ void APP_startProgram  ( void )
                 // run the adjust temp screen and algorithm
                 {
                     /* Show Adjust Screen */
-
                     /* Check if keypad keys are pressed */
-                    u8 u8_l_pressedkey = 0;
+                    u8 u8_l_pressedkey = KPD_U8_KEY_NOT_PRESSED;
+                    KPD_getPressedKey(&u8_l_pressedkey);
 
-//                    KPD_getPressedKey(&u8_l_pressedkey);
-    //                break;
-    //                break;
-                    switch (u8_l_pressedkey) {
-                        case BTN_INCREMENT:
-                        case BTN_DECREMENT:
-                            APP_changeTemp(u8_l_pressedkey == BTN_INCREMENT ? ACTION_INCREMENT : ACTION_DECREMENT);
-
-                            //reset timeout counter
-                            TIMER_intDelay_ms(TIMEOUT_MS_DELAY);
-                            break;
-
-                        case BTN_SET:
-                            // cancel timeout check (timer)
-                            TIMER_timer2Stop();
-
-                            // switch app to running state
-                            APP_switchState(STATE_RUNNING);
-                            break;
-                        default:
-                            //
-//                            TIMER_delay_ms(200);
-                            break;
+                    if(u8_l_pressedkey == BTN_INCREMENT || u8_l_pressedkey == BTN_DECREMENT)
+                    {
+                        // increment or decrement desired temperature w.r.t which button was pressed
+                        APP_changeTemp(u8_l_pressedkey == BTN_INCREMENT ? ACTION_INCREMENT : ACTION_DECREMENT);
+                    }
+                    else if(u8_l_pressedkey == BTN_SET)
+                    {
+                        // cancel timeout check (timer)
+                        TIMER_timer2Stop();
+                        // switch app to running state
+                        APP_switchState(STATE_RUNNING);
                     }
 
                     if(u8_g_timeOut == 1) {

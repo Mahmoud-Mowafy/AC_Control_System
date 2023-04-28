@@ -83,11 +83,12 @@ u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 	//u8_g_pressFlag = 0;
 	/* Define local variable to set the error state = OK */
 	u8 u8_l_errorState = STD_OK;
-	
+    *pu8_a_returnedKeyValue = KPD_U8_KEY_NOT_FOUND;
+    return u8_l_errorState;
 	/* Check 1: Pointer is not equal to NULL */
 	if ( pu8_a_returnedKeyValue != NULL )
 	{
-		u8 u8_l_pinValue;
+		u8 u8_l_pinValue = DIO_U8_PIN_HIGH;
 		u8 u8_l_keyFlag = KPD_U8_KEY_NOT_FOUND;
 		
 		/* Step 1: Update ReturnedKeyValue with the Not Pressed Key value */

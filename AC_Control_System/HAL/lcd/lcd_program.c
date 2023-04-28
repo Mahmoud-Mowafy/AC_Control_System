@@ -207,6 +207,9 @@ void LCD_clear(void)
     u8_gs_cursor = 0;
 }
 
+/**
+ * Fancy right shift clear for the LCD display
+ */
 void LCD_shiftClear(void)
 {
     for (int i = 0; i < LCD_LINE_COLS; ++i) {

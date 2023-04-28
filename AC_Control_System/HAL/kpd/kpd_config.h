@@ -9,6 +9,9 @@
 #ifndef KPD_CONFIG_H_
 #define KPD_CONFIG_H_
 
+/* MCAL */
+#include "../../MCAL/dio/dio_interface.h"
+
 /*******************************************************************************************************************************************************************/
 /* ATmega32(L) interfacing with KPD: */
 /*
@@ -28,13 +31,13 @@
 /* KPD Configurations */
 
 /* KPD Port(s) */
-/* Options: PORT_A
-			PORT_B
-			PORT_C
-			PORT_D
+/* Options: PORT_A:0
+			PORT_B:1
+			PORT_C:2
+			PORT_D:3
  */
-#define KPD_U8_INPUT_PORT		PORT_C
-#define KPD_U8_OUTPUT_PORT		PORT_C
+#define KPD_U8_INPUT_PORT		2
+#define KPD_U8_OUTPUT_PORT		2
 
 /* KPD Pins */
 /* Options: DIO_U8_PIN_0

@@ -59,7 +59,7 @@
  * 			ADC_U8_AVCC_VOLT			// AVCC with external capacitor at AREF pin
  * 			ADC_U8_INTERNAL_VOLT 	    // Internal 2.56V Voltage Reference with external capacitor at AREF pin
  */
-#define  ADC_U8_VREF_SELECT				ADC_U8_AREF_VOLT
+#define  ADC_U8_VREF_SELECT				ADC_U8_INTERNAL_VOLT
 
 /* ADC Conversion Result Presentation Adjust */
 /* Options: ADC_U8_RIGHT_ADJUST
@@ -100,7 +100,7 @@
  * 			ADC_U8_DIVISION_FACTOR_64
  * 			ADC_U8_DIVISION_FACTOR_128
  */
-#define  ADC_U8_PRESCALER_SELECT		ADC_U8_DIVISION_FACTOR_2
+#define  ADC_U8_PRESCALER_SELECT		ADC_U8_DIVISION_FACTOR_128
 
 /* TimeOutCounter Max Value */
 #define ADC_U16_TIME_OUT_MAX_VALUE		50000
