@@ -110,7 +110,7 @@ void APP_startProgram  ( void )
                 LCD_setCursor(LCD_LINE1, LCD_COL14);
 
 				//edit the LCD_sendString
-                u8 u8_l_currentTempStr[3];
+                u8 u8_l_currentTempStr[5];
                 sprintf((char *)u8_l_currentTempStr, "%d", u16_l_currentTemp);
                 LCD_sendString(u8_l_currentTempStr);
 
