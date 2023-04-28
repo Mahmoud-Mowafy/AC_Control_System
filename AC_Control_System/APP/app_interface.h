@@ -30,13 +30,17 @@
 #include "../HAL/buzzer/buzzer.h"
 /*******************************************************************************************************************************************************************/
 /* APP Macros */
-#define DEFAULT_TEMP        20
-#define MINIMUM_TEMP	    18
-#define MAXIMUM_TEMP	    35
-#define TIMEOUT_MS_DELAY    5000 // required 10 seconds
-#define WELCOME_MSG_DELAY   1000 // required 1 second
-#define CONTROLS_MSG_DELAY  2000 // optional msg
-#define REQ_TMP_MSG_DELAY   500 // required to be 0.5s
+#define DEFAULT_TEMP            20      // required = 20
+#define MINIMUM_TEMP	        18
+#define MAXIMUM_TEMP	        35
+
+/* APP Delays */
+#define WELCOME_MSG_DELAY       1000      // required 1 second
+#define CONTROLS_MSG_DELAY      2000      // optional msg ( 2 seconds )
+#define RESET_MSG_DELAY         1000    // optional msg ( 1 second )
+#define REQ_TMP_MSG_DELAY       500      // required to be 0.5s
+#define WRONG_ENTRY_BUZZ_DELAY  1000    // optional buzz (1 second)
+#define TIMEOUT_MS_DELAY        10000   // required 10 seconds
 
 /* APP STATES */
 #define STATE_RUNNING           1
@@ -51,7 +55,7 @@
 
 /* APP Actions */
 #define ACTION_INCREMENT			1
-#define ACTION_DECREMENT			0
+#define ACTION_DECREMENT			2
 
 /*******************************************************************************************************************************************************************/
 /* APP Functions' Prototypes */
