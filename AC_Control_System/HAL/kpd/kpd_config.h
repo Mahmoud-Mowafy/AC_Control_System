@@ -71,8 +71,8 @@
 #define KPD_U8_INPUT_PIN3		KPD_U8_C3_PIN
 
 /* KPD Configured Keys */
-#define KPD_AU8_KEYS	  	  { { 'A', 'R',  0  },  \
-								{ '+', '-', 'S' } }
+#define KPD_AU8_KEYS	  	  { { '1', '2',  '3'  },  \
+								{ '4', '5', '6' } }
 
 /* End of Configurations */
 

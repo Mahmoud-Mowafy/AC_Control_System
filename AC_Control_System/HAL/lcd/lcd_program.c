@@ -106,26 +106,26 @@ void LCD_sendChar(u8 u8_a_data) {
 	// Select Data Register
 	DIO_write(LCD_CTRL_PIN_RS, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
 
-    // Enable LCD
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
+	// Enable LCD
+	DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    // Send higher nibble
-    DIO_portWrite(LCD_DATA_PORT, HIGHER_NIBBLE_SHIFT(u8_a_data), LCD_DATA_PINS_MASK);
+	// Send higher nibble
+	DIO_portWrite(LCD_DATA_PORT, HIGHER_NIBBLE_SHIFT(u8_a_data), LCD_DATA_PINS_MASK);
 
-    // Enable Pulse
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_delay_us(LCD_US_DELAY_PULSE);
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
+	// Enable Pulse
+	DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
+	TIMER_delay_us(LCD_US_DELAY_PULSE);
+	DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    // Send lower nibble
-    DIO_portWrite(LCD_DATA_PORT, LOWER_NIBBLE_SHIFT(u8_a_data), LCD_DATA_PINS_MASK);
+	// Send lower nibble
+	DIO_portWrite(LCD_DATA_PORT, LOWER_NIBBLE_SHIFT(u8_a_data), LCD_DATA_PINS_MASK);
 
-    // Enable Pulse
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
-    TIMER_delay_us(LCD_US_DELAY_PULSE);
-    DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
+	// Enable Pulse
+	DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_HIGH);
+	TIMER_delay_us(LCD_US_DELAY_PULSE);
+	DIO_write(LCD_CTRL_PIN_EN, LCD_CTRL_PORT, DIO_U8_PIN_LOW);
 
-    TIMER_delay_us(LCD_US_DELAY_HOLD);
+	TIMER_delay_us(LCD_US_DELAY_HOLD);
 }
 
 /**
