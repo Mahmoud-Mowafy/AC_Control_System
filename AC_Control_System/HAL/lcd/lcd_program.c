@@ -41,6 +41,7 @@ void LCD_init(void) {
             (u8[]) {0x04, 0x0E, 0x0E, 0x0E, 0x1F, 0x00, 0x04, 0x00},
         LCD_CUSTOMCHAR_LOC0
         );
+    TIMER_delay_ms(LCD_MS_DELAY_STORE);
 
     // display bell top right
 //    LCD_setCursor(LCD_LINE0, LCD_COL15);
