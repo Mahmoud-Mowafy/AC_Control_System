@@ -137,7 +137,7 @@ u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 					/* Step 5: Update ReturnedKeyValue with the Pressed Key value */
 
 //					*pu8_a_returnedKeyValue = Au8_gs_keys[Loc_u8RowsCounter][Loc_u8ColsCounter];
-					*pu8_a_returnedKeyValue = ((u8 []){ '1', '2',  '3'  })[Loc_u8ColsCounter];
+					*pu8_a_returnedKeyValue = ((u8 [2][3]){ {'1', '2',  '3'}, {'4', '5',  '0'}  })[Loc_u8RowsCounter][Loc_u8ColsCounter];
 					//u8_g_pressFlag = 1;
 					/* Step 6: Update Flag to Found */
 					u8_l_keyFlag = KPD_U8_KEY_FOUND;
