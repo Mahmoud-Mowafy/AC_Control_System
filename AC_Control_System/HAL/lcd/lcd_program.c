@@ -204,4 +204,14 @@ u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location) {
 void LCD_clear(void)
 {
     LCD_sendCommand(LCD_CMD_CLEAR);
+    u8_gs_cursor = 0;
+}
+
+void LCD_shiftClear(void)
+{
+    for (int i = 0; i < LCD_LINE_COLS; ++i) {
+        LCD_sendCommand(LCD_CMD_DISP_SHIFT_RIGHT);
+    }
+    LCD_sendCommand(LCD_CMD_CLEAR);
+    u8_gs_cursor = 0;
 }
