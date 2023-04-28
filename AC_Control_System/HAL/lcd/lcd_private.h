@@ -27,6 +27,7 @@
 #define LCD_CMD_RETURN_HOME         0x02
 #define LCD_CMD_MODE_4Bit           0x28
 #define LCD_CMD_INC_CURSOR_RIGHT    0x06
+#define LCD_CMD_DISP_SHIFT_RIGHT    0x1C
 #define LCD_CMD_CLEAR               0x01
 // Enables or disables Display, Cursor, Blinking
 #define LCD_CMD_DCB  CONCAT4(0b00001,LCD_OPT_DISP, LCD_OPT_CURSOR, LCD_OPT_BLINK)

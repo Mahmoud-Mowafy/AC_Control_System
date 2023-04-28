@@ -124,4 +124,8 @@ u8 LCD_storeCustomCharacter(u8 * u8_a_pattern, u8 u8_a_location);
  */
 void LCD_clear(void);
 
+/**
+ * Fancy right shift clear for the LCD display
+ */
+void LCD_shiftClear(void);
 #endif /* LCD_INTERFACE_H_ */
