@@ -10,16 +10,9 @@
 
 int main(void)
 {
-    /* Replace with your application code */
+    /* App initialized */
 	APP_initialization();
-	
-	APP_startProgram();
-/*	TIMER_timer0NormalModeInit(DISABLED, NULL);
-	LCD_init();
-	LCD_clear();
-	
-    LCD_sendString("hi");
-    TIMER_delay_ms(2000);
-    LCD_sendString("\nhello");*/
-}
 
+    /* App start program */
+	APP_startProgram();
+}

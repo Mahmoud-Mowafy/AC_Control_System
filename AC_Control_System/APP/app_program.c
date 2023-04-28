@@ -41,11 +41,11 @@ void APP_initialization( void )
     LCD_clear();
 	LCD_setCursor(0,4);
     LCD_sendString((u8 *)"Welcome\n Hacker  Kermit");
-    TIMER_delay_ms(1000);
+    TIMER_delay_ms(WELCOME_MSG_DELAY);
 	LCD_shiftClear();
 
     LCD_sendString((u8 *)"   AC Control\ndefault temp: 20");
-    TIMER_delay_ms(1000);
+    TIMER_delay_ms(WELCOME_MSG_DELAY);
 	LCD_clear();
 
     APP_switchState(STATE_ADJUST); // start adjust procedure
@@ -107,10 +107,9 @@ void APP_startProgram  ( void )
 /*                LCD_sendString((u8 *)itoa(u16_l_currentTemp, (char *)NULL, 10));*/
 
 				//edit the LCD_sendString
-				u16 str[50];
-				sprintf(str, "%d", u16_l_currentTemp);
-				LCD_sendString(str);
-//                LCD_sendString("22");
+                u8 u8_l_currentTempStr[5];
+                itoa(u16_l_currentTemp, (char *)u8_l_currentTempStr, 10);
+                LCD_sendString(u8_l_currentTempStr);
 
                 // Check if current temperature is higher than desired
                 // in a real world situation we should turn the compressor ON to cool the air
@@ -163,10 +162,10 @@ void APP_switchState(u8 u8_a_state){
         {
             LCD_clear();
             LCD_sendString((u8 *) "Please choose\nthe required tmp");
-            TIMER_delay_ms(500);
+            TIMER_delay_ms(REQ_TMP_MSG_DELAY);
             LCD_clear();
             LCD_sendString((u8 *) "    Controls\n1(+) 2(-) 3(set)");
-            TIMER_delay_ms(1000);
+            TIMER_delay_ms(CONTROLS_MSG_DELAY);
             LCD_shiftClear();
 
             u8 tempVisualizer[17];
