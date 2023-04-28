@@ -48,6 +48,9 @@
 #define LCD_CUSTOMCHAR_LOC6	6
 #define LCD_CUSTOMCHAR_LOC7	7
 
+/* Custom Chars */
+#define LCD_CUSTOM_SOLID_BLOCK 0xFF
+
 /* Prototypes */
 
 /**
