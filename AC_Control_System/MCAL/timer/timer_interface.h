@@ -55,6 +55,10 @@
 #define MAX_DELAY                         (0.032768f) // in sec
 #define MAX_COUNTS                           256
 #define TICK_TIME                         (0.000128f) // in sec
+
+#define MAX_TIMER_DELAY_8_PRESCALLER     (MAX_DELAY_8_PRESCALLER * 65535)
+#define MAX_DELAY_8_PRESCALLER             (0.000256f) // in sec
+#define TICK_TIME_8_PRESCALLER            (0.000001f) // in sec
 #define SECOND_OPERATOR                     (1000.0f)
 #define MICRO_SECOND_OPERATOR				(1000000.0f)
 

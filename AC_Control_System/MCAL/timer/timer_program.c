@@ -117,30 +117,27 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
   /******************************************************************************************/
   EN_TIMER_ERROR_T TIMER_delay_us(u16 u16_a_interval) {
       if((u8_g_timerShutdownFlag != NULL && *u8_g_timerShutdownFlag == 1)) return TIMER_ERROR; // sudden break flag
-      if ( ( u16_a_interval / SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
-          return TIMER_ERROR;
-      }
       else {
-          /* Clear the TCCR Register*/
-          TIMER_U8_TCCR0_REG = 0x00;
-          /*Get the time in second*/
-          f64 d64_a_delay = (u16_a_interval / MICRO_SECOND_OPERATOR);
-          /*Compare the desired delay by the maximum delay for each overflow*/
-          if (d64_a_delay < MAX_DELAY) {
-              /*just on overflow is required*/
-              TIMER_U8_TCNT0_REG = (u8) ((MAX_DELAY - d64_a_delay) / TICK_TIME);
-              u16_g_overflowNumbers = 1;
-          } else if (d64_a_delay == MAX_DELAY) {
-              TIMER_U8_TCNT0_REG = 0x00;
-              u16_g_overflowNumbers = 1;
-          } else {
-              u16_g_overflowNumbers = ceil(d64_a_delay / MAX_DELAY);
-//            u8_g_timer0InitialVal = (u8)(MAX_COUNTS - ((d64_a_delay / TICK_TIME) / u16_g_overflowNumbers));
-              TIMER_U8_TCNT0_REG = (u8) ((MAX_COUNTS) - ((d64_a_delay - (MAX_DELAY * (u16_g_overflowNumbers - 1.0))) /
-                                                         TICK_TIME)); // in decimal  (0 - 255)
-          }
+		            /* Clear the TCCR Register*/
+		  TIMER_U8_TCCR0_REG = 0x00;
+		  switch(u16_a_interval)
+		  {
+			  case 1:
+				 TIMER_U8_TCCR0_REG = 255;
+			  break;
+			  case 2:
+				 TIMER_U8_TCCR0_REG = 254;
+			  break;
+			  case 10:
+				  TIMER_U8_TCCR0_REG = 245;
+			  break;
+			  case 200:
+				  TIMER_U8_TCCR0_REG = 55;
+			  break;			  
+		  }
+		  u16_g_overflowNumbers = 1;
           u16_g_overflowTicks = 0;
-          TIMER_timer0Start(1024);
+          TIMER_timer0Start(8);
           /*Polling the overflowNumbers and the overflow flag bit*/
           while (u16_g_overflowNumbers > u16_g_overflowTicks && (u8_g_timerShutdownFlag == NULL || *u8_g_timerShutdownFlag == 0))
           {
@@ -297,9 +294,6 @@ EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval) {
 		 return TIMER_ERROR;
 	}       
     else {
-        /* Stop timer if running */
-        TIMER_timer2Stop();
-
         /* Clear the TCCR Register*/
         TIMER_U8_TCCR2_REG = 0x00;
         /*Get the time in second*/
