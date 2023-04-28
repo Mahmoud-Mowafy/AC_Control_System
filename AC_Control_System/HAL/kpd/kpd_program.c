@@ -15,6 +15,7 @@
 
 /* Global Array of KPD Keys */
 static const u8 Au8_gs_keys[2][3] = KPD_AU8_KEYS;
+//u8 u8_g_pressFlag = 0;
 
 /* Global Arrays of Rows an Columns Pins */
 static const u8 Au8_gs_rowsPins[2] = { KPD_U8_R1_PIN, KPD_U8_R2_PIN };
@@ -79,6 +80,7 @@ void KPD_disableKPD ( void )
 */
 u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 {
+	//u8_g_pressFlag = 0;
 	/* Define local variable to set the error state = OK */
 	u8 u8_l_errorState = STD_OK;
 	
@@ -122,7 +124,7 @@ u8 KPD_getPressedKey( u8 *pu8_a_returnedKeyValue )
 					
 					/* Step 5: Update ReturnedKeyValue with the Pressed Key value */
 					*pu8_a_returnedKeyValue = Au8_gs_keys[Loc_u8RowsCounter][Loc_u8ColsCounter];
-					
+					//u8_g_pressFlag = 1;
 					/* Step 6: Update Flag to Found */
 					u8_l_keyFlag = KPD_U8_KEY_FOUND;
 					
