@@ -18,12 +18,15 @@
 /* Declaration and Initialization */
 
 u8 u8_g_timeOut = 0;
+u8 u8_l_mode = POLLING;
 
 u16 u16_g_overflowNumbers = 0;
 u16 u16_g_overflowTicks = 0;
+u16 u16_g_tcnt0InitialVal = 0;
 
 u16 u16_g_overflow2Ticks = 0;
 u16 u16_g_overflow2Numbers = 0;
+u16 u16_g_tcnt2InitialVal = 0;
 
 u8 * u8_g_timerShutdownFlag = NULL;
 
@@ -42,8 +45,7 @@ void (*void_g_pfOvfInterruptAction)(void) = NULL;
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_timer0NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputEnable, u8 ** u8_a_shutdownFlag) {
-    u8_g_timerShutdownFlag = *u8_a_shutdownFlag;
+EN_TIMER_ERROR_T TIMER_timer0NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputEnable) {
 
     switch (en_a_interrputEnable) {
         case ENABLED:
@@ -54,11 +56,15 @@ EN_TIMER_ERROR_T TIMER_timer0NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputE
             SET_BIT(TIMER_U8_SREG_REG, GLOBAL_INTERRUPT_ENABLE_BIT);
             /* Enable the interrupt for timer0 overflow.*/
             SET_BIT(TIMER_U8_TIMSK_REG, TIMER_U8_TOIE0_BIT);
+			/*Set the interrupt flag*/
+			u8_l_mode = INTERRUPT;
             break;
         case DISABLED:
             /* select the normal mode for the timer, timer is not start yet.*/
             CLR_BIT(TIMER_U8_TCCR0_REG, TIMER_U8_WGM00_BIT);
             CLR_BIT(TIMER_U8_TCCR0_REG, TIMER_U8_WGM01_BIT);
+			/*Set the interrupt flag*/
+			u8_l_mode = POLLING;
             break;
         default:
             return TIMER_ERROR;
@@ -99,18 +105,22 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
 //            u8_g_timer0InitialVal = (u8)(MAX_COUNTS - ((d64_a_delay / TICK_TIME) / u16_g_overflowNumbers));
             TIMER_U8_TCNT0_REG = (u8) ((MAX_COUNTS) - ((d64_a_delay - (MAX_DELAY * (u16_g_overflowNumbers - 1.0))) /
                                                        TICK_TIME)); // in decimal  (0 - 255)
+			u16_g_tcnt0InitialVal = TIMER_U8_TCNT0_REG;									   
         }
         u16_g_overflowTicks = 0;
         TIMER_timer0Start(1024);
         /*Polling the overflowNumbers and the overflow flag bit*/
-        while (u16_g_overflowNumbers > u16_g_overflowTicks )
-        {
-            while ((TIMER_U8_TIFR_REG & (1 << 0)) == 0);
-            TIMER_U8_TIFR_REG |= (1 << 0);
-            u16_g_overflowTicks++;
-        }
-        /*stop the timer*/
-        TIMER_timer0Stop();
+		if(u8_l_mode == POLLING)
+		{
+			while (u16_g_overflowNumbers > u16_g_overflowTicks )
+			{
+				while ((TIMER_U8_TIFR_REG & (1 << 0)) == 0);
+				TIMER_U8_TIFR_REG |= (1 << 0);
+				u16_g_overflowTicks++;
+			}
+			/*stop the timer*/
+			TIMER_timer0Stop();
+		}
     }
     return TIMER_OK;
 }
@@ -123,23 +133,23 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
 		  switch(u16_a_interval)
 		  {
 			  case 1:
-				 TIMER_U8_TCCR0_REG = 255;
+				 TIMER_U8_TCNT0_REG = 255;
 			  break;
 			  case 2:
-				 TIMER_U8_TCCR0_REG = 254;
+				 TIMER_U8_TCNT0_REG = 254;
 			  break;
 			  case 10:
-				  TIMER_U8_TCCR0_REG = 245;
+				  TIMER_U8_TCNT0_REG = 245;
 			  break;
 			  case 200:
-				  TIMER_U8_TCCR0_REG = 55;
+				  TIMER_U8_TCNT0_REG = 55;
 			  break;			  
 		  }
 		  u16_g_overflowNumbers = 1;
           u16_g_overflowTicks = 0;
-          TIMER_timer0Start(1);
+          TIMER_timer0Start(1024);
           /*Polling the overflowNumbers and the overflow flag bit*/
-          while (u16_g_overflowNumbers > u16_g_overflowTicks && (u8_g_timerShutdownFlag == NULL || *u8_g_timerShutdownFlag == 0))
+          while (u16_g_overflowNumbers > u16_g_overflowTicks /*&& (u8_g_timerShutdownFlag == NULL || *u8_g_timerShutdownFlag == 0)*/)
           {
               while ((TIMER_U8_TIFR_REG & (1 << 0)) == 0);
               TIMER_U8_TIFR_REG |= (1 << 0);
@@ -288,30 +298,40 @@ EN_TIMER_ERROR_T TIMER_timer2NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputE
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval) {
-    if ( ( u16_a_interval / MICRO_SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
-		 return TIMER_ERROR;
+EN_TIMER_ERROR_T TIMER_intDelay_ms(u32 u32_a_interval) {
+    if ( ( u32_a_interval / SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
+	 return TIMER_ERROR;
 	}       
     else {
         /* Clear the TCCR Register*/
         TIMER_U8_TCCR2_REG = 0x00;
         /*Get the time in second*/
-        f64 d64_a_delay = (u16_a_interval / SECOND_OPERATOR);
+        f64 d64_a_delay = (u32_a_interval / SECOND_OPERATOR) * FACTOR;
         /*Compare the desired delay by the maximum delay for each overflow*/
         if (d64_a_delay < MAX_DELAY) {
             /*just on overflow is required*/
             TIMER_U8_TCNT2_REG = (u8) ((MAX_DELAY - d64_a_delay) / TICK_TIME);
             u16_g_overflow2Numbers = 1;
-        } else if (d64_a_delay == MAX_DELAY) {
+        }
+		 else if (d64_a_delay == MAX_DELAY) {
             TIMER_U8_TCNT2_REG = 0x00;
             u16_g_overflow2Numbers = 1;
         } else {
             u16_g_overflow2Numbers = ceil(d64_a_delay / MAX_DELAY);
             TIMER_U8_TCNT2_REG = (u8) ((MAX_COUNTS) - ((d64_a_delay - (MAX_DELAY * (u16_g_overflow2Numbers - 1.0))) /
                                                        TICK_TIME)); // in decimal  (0 - 255)
-        }
-        u16_g_overflow2Ticks = 0;
-        TIMER_timer2Start(1024);
+			u16_g_tcnt2InitialVal = TIMER_U8_TCNT2_REG;
+			
+		}
+          u16_g_overflow2Ticks = 0;
+          TIMER_timer2Start(1024);
+          /*Polling the overflowNumbers and the overflow flag bit*/
+//           while (u16_g_overflow2Numbers > u16_g_overflow2Ticks /*&& (u8_g_timerShutdownFlag == NULL || *u8_g_timerShutdownFlag == 0)*/)
+//           {
+// 	          while ((TIMER_U8_TIFR_REG & (1 << 6)) == 0);
+// 	          TIMER_U8_TIFR_REG |= (1 << 6);
+// 	          u16_g_overflow2Ticks++;
+//           }				
 
     }
 	
@@ -594,14 +614,28 @@ EN_TIMER_ERROR_T TIMER_ovfSetCallback(void (*void_a_pfOvfInterruptAction)(void))
 //__attribute__((optimize("O0")))
 //ISR(TMR_ovfVect)
 
-void __vector_5(void) __attribute__((signal));
-void __vector_5(void)
+ISR( TIMER2_OVF_vect )
 {
 	u16_g_overflow2Ticks++;
+	TIMER_U8_TCNT2_REG = u16_g_tcnt2InitialVal;
 	if (u16_g_overflow2Ticks >= u16_g_overflow2Numbers )
 	{
 		u16_g_overflow2Ticks = 0;
+		u8_g_timeOut = 1;
 		TIMER_timer2Stop();
-        u8_g_timeOut = 1;
+	}
+}
+
+ISR( TIMER0_OVF_vect )
+{
+	u16_g_overflowTicks++;
+	TIMER_U8_TCNT0_REG = u16_g_tcnt0InitialVal;
+	if (u16_g_overflowTicks >= u16_g_overflowNumbers )
+	{
+		u16_g_overflowTicks = 0;
+		u8_g_timeOut = 1;
+		TIMER_timer0Stop();
+		CLR_BIT(TIMER_U8_TIMSK_REG, TIMER_U8_TOIE0_BIT);
+		u8_l_mode == POLLING;
 	}
 }
