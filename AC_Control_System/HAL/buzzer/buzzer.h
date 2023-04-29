@@ -19,12 +19,24 @@
 /* Prototypes */
 
 /**
- * @brief Initializes the BUZZER module.
- *
- * @return void
- */
+* @brief initialize the buzzer pin
+*
+* @return void
+*/
 void BUZZER_init();
+
+/**
+* @brief turn the buzzer on
+*
+* @return void
+*/
 void BUZZER_on();
+
+/**
+* @brief turn the buzzer off
+*
+* @return void
+*/
 void BUZZER_off();
 
 #endif /* BUZZER_H_ */
