@@ -29,16 +29,14 @@ void APP_initialization( void )
 
 	/* MCAL Initialization */
 		
-	TIMER_timer0NormalModeInit( DISABLED, NULL );
-//	TIMER_timer2NormalModeInit( ENABLED, NULL );
-
+	TIMER_timer0NormalModeInit( DISABLED );
+	TIMER_timer2NormalModeInit( ENABLED );
     /* Initialize temperature sensor */
 	TEMPSENSOR_init();
     /* Initialize Buzzer */
     BUZZER_init();
     /* Initialize Keypad */
     KPD_initKPD();
-
     /*initialize LCD*/
  	LCD_init();
     LCD_clear();
