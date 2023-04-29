@@ -306,7 +306,7 @@ EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval) {
         /* Clear the TCCR Register*/
         TIMER_U8_TCCR2_REG = 0x00;
         /*Get the time in second*/
-        f64 d64_a_delay = (u16_a_interval / SECOND_OPERATOR) ;
+        f64 d64_a_delay = (u16_a_interval / SECOND_OPERATOR);
         /*Compare the desired delay by the maximum delay for each overflow*/
         if (d64_a_delay < MAX_DELAY) {
             /*just on overflow is required*/
@@ -617,7 +617,7 @@ EN_TIMER_ERROR_T TIMER_ovfSetCallback(void (*void_a_pfOvfInterruptAction)(void))
 ISR( TIMER2_OVF_vect )
 {
 	u16_g_overflow2Ticks++;
-	TIMER_U8_TCNT2_REG = u16_g_tcnt2InitialVal;
+	//TIMER_U8_TCNT2_REG = u16_g_tcnt2InitialVal;
 	if (u16_g_overflow2Ticks >= u16_g_overflow2Numbers )
 	{
 		u16_g_overflow2Ticks = 0;
@@ -629,7 +629,7 @@ ISR( TIMER2_OVF_vect )
 ISR( TIMER0_OVF_vect )
 {
 	u16_g_overflowTicks++;
-	TIMER_U8_TCNT0_REG = u16_g_tcnt0InitialVal;
+	//TIMER_U8_TCNT0_REG = u16_g_tcnt0InitialVal;
 	if (u16_g_overflowTicks >= u16_g_overflowNumbers )
 	{
 		u16_g_overflowTicks = 0;
