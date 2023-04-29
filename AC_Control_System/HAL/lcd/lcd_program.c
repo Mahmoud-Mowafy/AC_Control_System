@@ -23,7 +23,7 @@ static u8 u8_gs_cursor = 0;
 void LCD_init(void) {
     DIO_portInit(LCD_DATA_PORT, DIO_PORT_OUT, DIO_NO_MASK);
     DIO_portWrite(LCD_DATA_PORT, DIO_U8_PORT_LOW, DIO_NO_MASK);
-    TIMER_timer0NormalModeInit(DISABLED, NULL);
+    TIMER_timer0NormalModeInit(DISABLED);
     TIMER_delay_ms(LCD_MS_DELAY_INIT); // 10 ms
     LCD_sendCommand(LCD_CMD_RETURN_HOME); // Return home
     LCD_sendCommand(LCD_CMD_MODE_4Bit); // 4 bit mode, 2 lines, 5*7 matrix

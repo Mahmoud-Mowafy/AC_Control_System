@@ -13,8 +13,11 @@
 /* ***********************************************************************************************/
 /* TIMER Configurations' Definitions */
 
-/*#define ISR(INT_VECT)	void INT_VECT(void) __attribute__((signal,used));\
-void INT_VECT(void)*/
+#define ISR(INT_VECT)	void INT_VECT(void) __attribute__((signal,used));\
+void INT_VECT(void)
+
+#define TIMER2_OVF_vect			    __vector_5
+#define TIMER0_OVF_vect				__vector_4
 
 /*
  * 8-bit Timer/Counter0 Configurations' Definitions
