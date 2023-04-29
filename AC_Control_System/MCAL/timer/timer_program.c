@@ -78,9 +78,9 @@ EN_TIMER_ERROR_T TIMER_timer0NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputE
  */
 EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
     if((u8_g_timerShutdownFlag != NULL && *u8_g_timerShutdownFlag == 1)) return TIMER_ERROR; // sudden break flag
-    if ( ( u16_a_interval / SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
+   /* if ( ( u16_a_interval / SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
 	    return TIMER_ERROR;
-    }
+    }*/
     else {
         /* Clear the TCCR Register*/
         TIMER_U8_TCCR0_REG = 0x00;
@@ -103,7 +103,7 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
         u16_g_overflowTicks = 0;
         TIMER_timer0Start(1024);
         /*Polling the overflowNumbers and the overflow flag bit*/
-        while (u16_g_overflowNumbers > u16_g_overflowTicks && (u8_g_timerShutdownFlag == NULL || *u8_g_timerShutdownFlag == 0))
+        while (u16_g_overflowNumbers > u16_g_overflowTicks )
         {
             while ((TIMER_U8_TIFR_REG & (1 << 0)) == 0);
             TIMER_U8_TIFR_REG |= (1 << 0);
@@ -137,7 +137,7 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
 		  }
 		  u16_g_overflowNumbers = 1;
           u16_g_overflowTicks = 0;
-          TIMER_timer0Start(8);
+          TIMER_timer0Start(1);
           /*Polling the overflowNumbers and the overflow flag bit*/
           while (u16_g_overflowNumbers > u16_g_overflowTicks && (u8_g_timerShutdownFlag == NULL || *u8_g_timerShutdownFlag == 0))
           {
@@ -254,8 +254,7 @@ void TIMER_timer0Stop(void) {
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_timer2NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputEnable, u8 ** u8_a_shutdownFlag) {
-    u8_g_timerShutdownFlag = *u8_a_shutdownFlag;
+EN_TIMER_ERROR_T TIMER_timer2NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputEnable) {
 
     switch (en_a_interrputEnable) {
         case ENABLED:

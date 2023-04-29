@@ -24,6 +24,7 @@
 /* ****************************************************************/
 /* TIMER Macros */
 
+#define F_CPU								1000000UL
 /* The 3 Timers counted from 0 to 2 */
 #define TIMER_U8_TIMER0                            0
 #define TIMER_U8_TIMER1                        1
@@ -52,9 +53,9 @@
 #define GLOBAL_INTERRUPT_ENABLE_BIT      7
 
 #define MAX_TIMER_DELAY                     (MAX_DELAY * 65535)
-#define MAX_DELAY                         (0.032768f) // in sec
+#define MAX_DELAY                         (0.262144f) // in sec
 #define MAX_COUNTS                           256
-#define TICK_TIME                         (0.000128f) // in sec
+#define TICK_TIME                         (0.001024f) // in sec
 
 #define MAX_TIMER_DELAY_8_PRESCALLER     (MAX_DELAY_8_PRESCALLER * 65535)
 #define MAX_DELAY_8_PRESCALLER             (0.000256f) // in sec
@@ -145,7 +146,7 @@ void TIMER_timer0Stop(void);
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_timer2NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputEnable, u8 ** u8_a_shutdownFlag);
+EN_TIMER_ERROR_T TIMER_timer2NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputEnable);
 
 /**
  * @brief Stop the timer by setting the prescaler to be 000--> timer is stopped.
