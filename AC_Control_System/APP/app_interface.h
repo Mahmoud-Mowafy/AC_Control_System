@@ -60,10 +60,51 @@
 /*******************************************************************************************************************************************************************/
 /* APP Functions' Prototypes */
 
+/**
+ * @brief Initializes the application and its components.
+ *
+ * This function initializes the timers, temperature sensor, buzzer, keypad,
+ * LCD and other components required for the application to function. It also
+ * displays a welcome message and sets the initial temperature to 20 degrees
+ * Celsius. Finally, it switches the application state to adjust the AC control
+ * procedure.
+ */
 void APP_initialization( void );
+
+/**
+ * @brief Start the AC Control program.
+ *
+ * This function contains the main program loop that controls the AC system.
+ * It switches between two states, adjust and running, and performs different tasks
+ * in each state based on user input and temperature readings.
+ *
+ * @return void.
+ */
 void APP_startProgram  ( void );
-void APP_changeTemp(u8 u8_a_action);
+
+/**
+ * @brief Switch between AC states "running" and "adjust"
+ *
+ * @param [in]u8_a_state state to set (STATE_RUNNING/STATE_ADJUST)
+ *
+ * @return void
+ */
 void APP_switchState(u8 u8_a_state);
+
+/**
+ * @brief Updates the desired temperature value based on user input.
+ *
+ * @param [in]u8_a_action The action to perform on the temperature value (ACTION_INCREMENT/ACTION_DECREMENT).
+ *
+ * This function updates the UI temperature value and progress bar based on the provided action.
+ * If the new desired temperature value is out of range (MAXIMUM_TEMP or MINIMUM_TEMP), the function will
+ * buzz the user and revert the value back to the original.
+ */
+void APP_changeTemp(u8 u8_a_action);
+
+/**
+ * @brief Resets the desired temperature value to the default temperature.
+ */
 void APP_resetToDefault();
 /*******************************************************************************************************************************************************************/
 
