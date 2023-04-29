@@ -52,7 +52,7 @@ typedef enum {
 	POLLING
 	}EN_TIMER_mode_T;
 
-#define FACTOR					11
+#define FACTOR					4
 #define OC0_PIN_DIR                         DDRB
 #define OC0_PIN                              3
 #define GLOBAL_INTERRUPT_ENABLE_BIT      7
@@ -193,7 +193,7 @@ EN_TIMER_ERROR_T TIMER_timer2Start(u16 u16_a_prescaler);
  */
 EN_TIMER_ERROR_T TIMER_delay_us(u16 u16_a_interval);
 
-EN_TIMER_ERROR_T TIMER_intDelay_ms(u32 u16_a_interval);
+EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval);
 
 /**
  * @brief Set callback function for timer overflow interrupt

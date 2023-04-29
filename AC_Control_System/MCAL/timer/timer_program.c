@@ -126,8 +126,8 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
 }
   /******************************************************************************************/
   EN_TIMER_ERROR_T TIMER_delay_us(u16 u16_a_interval) {
-      if((u8_g_timerShutdownFlag != NULL && *u8_g_timerShutdownFlag == 1)) return TIMER_ERROR; // sudden break flag
-      else {
+//       if((u8_g_timerShutdownFlag != NULL && *u8_g_timerShutdownFlag == 1)) return TIMER_ERROR; // sudden break flag
+//       else {
 		            /* Clear the TCCR Register*/
 		  TIMER_U8_TCCR0_REG = 0x00;
 		  switch(u16_a_interval)
@@ -144,7 +144,7 @@ EN_TIMER_ERROR_T TIMER_delay_ms(u16 u16_a_interval) {
 			  case 200:
 				  TIMER_U8_TCNT0_REG = 55;
 			  break;			  
-		  }
+		//  }
 		  u16_g_overflowNumbers = 1;
           u16_g_overflowTicks = 0;
           TIMER_timer0Start(1024);
@@ -298,15 +298,15 @@ EN_TIMER_ERROR_T TIMER_timer2NormalModeInit(EN_TIMER_INTERRPUT_T en_a_interrputE
  * @return An EN_TIMER_ERROR_T value indicating the success or failure of the operation
  *         (TIMER_OK if the operation succeeded, TIMER_ERROR otherwise)
  */
-EN_TIMER_ERROR_T TIMER_intDelay_ms(u32 u32_a_interval) {
-    if ( ( u32_a_interval / SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
+EN_TIMER_ERROR_T TIMER_intDelay_ms(u16 u16_a_interval) {
+    if ( ( u16_a_interval / SECOND_OPERATOR ) > ( MAX_TIMER_DELAY ) ) {
 	 return TIMER_ERROR;
 	}       
     else {
         /* Clear the TCCR Register*/
         TIMER_U8_TCCR2_REG = 0x00;
         /*Get the time in second*/
-        f64 d64_a_delay = (u32_a_interval / SECOND_OPERATOR) * FACTOR;
+        f64 d64_a_delay = (u16_a_interval / SECOND_OPERATOR) ;
         /*Compare the desired delay by the maximum delay for each overflow*/
         if (d64_a_delay < MAX_DELAY) {
             /*just on overflow is required*/
