@@ -14,7 +14,7 @@
 > - `Project Documentation`
     >     👉 [PDF]()
     >     👉 [Google Docs]()
-> - `Video` 👉 [Watch on Youtube]()
+> - `Video` 👉 [Watch on Youtube](https://youtu.be/t7qpVUQJiD0)
 > - `Team Backlog` 👉 [Google Sheets]() 👉 [Excel]()
 > - `Test Protocol` 👉 [Google Sheets]() 👉 [Excel]()
 > - ---
