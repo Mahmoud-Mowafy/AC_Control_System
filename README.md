@@ -4,8 +4,8 @@
 - #### Members:
     - Mahmoud Mowafey
     - Abdelrahman Walaa
-    - Tarek Elgohary
     - Hossam Elwahsh
+    - Tarek Elgohary
 
 ## Brief
 > Embedded C application for controlling a temperature sensor, and adjust the desired temperature.
@@ -13,10 +13,10 @@
 ## Quick Links
 > - `Project Documentation`
     >     👉 [PDF]()
-    >     👉 [Google Docs]()
+    >     👉 [Google Docs](https://docs.google.com/document/d/1zUYskV-cAppTGXI2pj8mt7Ny0XqNEJZvHcIalnobWQU/edit?usp=sharing)
 > - `Video` 👉 [Watch on Youtube](https://youtu.be/t7qpVUQJiD0)
-> - `Team Backlog` 👉 [Google Sheets]() 👉 [Excel]()
-> - `Test Protocol` 👉 [Google Sheets]() 👉 [Excel]()
+> - `Team Backlog` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing) 👉 [Excel](Documents/Hacker%20Kermit%20-%20AC%20Control%20System.xlsx)
+> - `Test Protocol` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing#gid=1200153160) 👉 [Excel](Documents/Hacker%20Kermit%20-%20AC%20Control%20System.xlsx)
 > - ---
 > ### Technical
 > - `Proteus Simulation (Proteus 8.13)` 👉 [Simulation_8.13](Simulation/AC_controller_Proteus8.13.pdsprj)
@@ -26,7 +26,7 @@
 
     Allowed Temperatures:
     Temp:     18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35  in C°
-    ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓
+              ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓
     Index:    0  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 15   character index on LCD
     Visual:   ■  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ■   character visible on LCD
 
