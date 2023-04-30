@@ -12,11 +12,11 @@
 
 ## Quick Links
 > - `Project Documentation`
-    >     👉 [PDF]()
+    >     👉 [PDF](Documents/Hacker%20Kermit%20-%20AC%20Control%20Design.pdf)
     >     👉 [Google Docs](https://docs.google.com/document/d/1zUYskV-cAppTGXI2pj8mt7Ny0XqNEJZvHcIalnobWQU/edit?usp=sharing)
-> - `Video` 👉 [Watch on Youtube](https://youtu.be/t7qpVUQJiD0)
-> - `Team Backlog` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing) 👉 [Excel](Documents/Hacker%20Kermit%20-%20AC%20Control%20System.xlsx)
-> - `Test Protocol` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing#gid=1200153160) 👉 [Excel](Documents/Hacker%20Kermit%20-%20AC%20Control%20System.xlsx)
+> - `Video` 👉 [Watch on Youtube]()
+> - `Team Backlog` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing) 👉 [Excel]()
+> - `Test Protocol` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing#gid=1200153160) 👉 [Excel]()
 > - ---
 > ### Technical
 > - `Proteus Simulation (Proteus 8.13)` 👉 [Simulation_8.13](Simulation/AC_controller_Proteus8.13.pdsprj)
@@ -82,7 +82,7 @@
 ---------
 
 ## Circuit Schematic
-![Proteus Simulation](Documents/simulation.PNG)
+![Proteus Simulation](Simulation/Simulation.png)
 
 ## Layered Architecture
 ![Layered Architecture](Documents/Flowcharts%20-%20drawio%20files/png/LayeredArchitecture_crop.drawio.png)
