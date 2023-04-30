@@ -22,7 +22,7 @@
 > - `Proteus Simulation (Proteus 8.13)` 👉 [Simulation_8.13](Simulation/AC_controller_Proteus8.13.pdsprj)
 > #### for older proteus version you can import the proteus clip file (pdsclip) and update the MC hex file:
 > - `Proteus clip file` 👉 [Proteus PDSCLIP](Simulation/AC%20controller.pdsclip)
-> - `Project Hex` 👉 [AC Control System.hex](Simulation/AC%20Control%20System.hex)
+> - `Project Hex` 👉 [AC Control System.hex](Simulation/AC_Control.hex)
 
     Allowed Temperatures:
     Temp:     18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35  in C°
