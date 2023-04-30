@@ -14,9 +14,9 @@
 > - `Project Documentation`
     >     👉 [PDF](Documents/Hacker%20Kermit%20-%20AC%20Control%20Design.pdf)
     >     👉 [Google Docs](https://docs.google.com/document/d/1zUYskV-cAppTGXI2pj8mt7Ny0XqNEJZvHcIalnobWQU/edit?usp=sharing)
-> - `Video` 👉 [Watch on Youtube]()
-> - `Team Backlog` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing) 👉 [Excel]()
-> - `Test Protocol` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing#gid=1200153160) 👉 [Excel]()
+> - `Video` 👉 [Watch on Youtube](https://youtu.be/0Qr8nxBq1WU)
+> - `Team Backlog` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing) 👉 [Excel](Documents/Hacker%20Kermit%20-%20Team%20Log%20AC%20Control.xlsx)
+> - `Test Protocol` 👉 [Google Sheets](https://docs.google.com/spreadsheets/d/1Lk05spYUBcoQDUMgQl8S5kLvkQC_jN6cfbnQXrIj39k/edit?usp=sharing#gid=1200153160) 👉 [Excel](Test%20Cases/Hacker%20Kermit%20-%20Test%20Protocol%20AC%20Control.xlsx)
 > - ---
 > ### Technical
 > - `Proteus Simulation (Proteus 8.13)` 👉 [Simulation_8.13](Simulation/AC_controller_Proteus8.13.pdsprj)
